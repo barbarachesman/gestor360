@@ -79,6 +79,20 @@ Modelo alinhado a um espelho Businessmap (sync automático depois).
 
 Arquivo: [iniciativas.csv](iniciativas.csv) — só cabeçalho (Fatia 3).
 
+### CulturaDocs
+
+Documentos da aba **Cultura Time**.
+
+| Coluna | Tipo | Descrição |
+|--------|------|-----------|
+| `id` | texto | Identificador estável |
+| `titulo` | texto | Nome exibido |
+| `descricao` | texto | Resumo curto |
+| `url` | texto | Link Drive / Forms (preencher depois) |
+| `ordem` | número | Ordenação na lista |
+
+Arquivo: [cultura-docs.csv](cultura-docs.csv) — DoD Dor, Tenets, Pesquisa de pulso/clima.
+
 ## Times iniciais
 
 - Interfaces Conversacionais (`interfaces-conversacionais`)
