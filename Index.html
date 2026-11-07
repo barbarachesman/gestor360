@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gestor360</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&family=IBM+Plex+Serif:ital,wght@1,500&display=swap"
+      rel="stylesheet"
+    />
+    <?!= include('Stylesheet'); ?>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header-inner">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">360</span>
+          <p class="brand-name">Gestor360</p>
+        </div>
+        <p class="header-note">Aprovação de férias permanece no ClickGB</p>
+      </div>
+    </header>
+
+    <div class="page">
+      <p class="eyebrow" id="greeting-date"></p>
+      <h1 class="greeting">
+        Visão e <em>planejamento</em> dos times
+      </h1>
+
+      <nav class="nav" aria-label="Visões principais">
+        <button type="button" class="nav-btn" data-view="ferias" aria-pressed="false">
+          Férias
+        </button>
+        <button type="button" class="nav-btn is-active" data-view="calendario" aria-pressed="true">
+          Calendário
+        </button>
+        <button type="button" class="nav-btn" data-view="iniciativas" aria-pressed="false">
+          Iniciativas
+        </button>
+        <button type="button" class="nav-btn" data-view="ajuda" aria-pressed="false">
+          Pedidos de ajuda
+        </button>
+      </nav>
+
+      <main class="main">
+        <section id="view-ferias" class="view" hidden>
+          <header class="view-header">
+            <span class="badge">Férias</span>
+            <h2>Quem está ou vai estar de férias</h2>
+            <p>Cadastro manual / planilha na próxima fatia.</p>
+          </header>
+          <div class="panel">
+            <p>Stub — ausências ainda não carregadas.</p>
+            <p class="muted">Use a visão <strong>Calendário</strong> para feriados e eventos de 2026.</p>
+          </div>
+        </section>
+
+        <section id="view-calendario" class="view">
+          <header class="view-header view-header-cal">
+            <div>
+              <span class="badge">Calendário</span>
+              <h2>Feriados GB 2026, pontes e eventos de canal</h2>
+            </div>
+            <div class="month-nav">
+              <button type="button" id="btn-prev-month" class="icon-btn" aria-label="Mês anterior">
+                ‹
+              </button>
+              <h3 id="month-label" class="month-label"></h3>
+              <button type="button" id="btn-next-month" class="icon-btn" aria-label="Próximo mês">
+                ›
+              </button>
+            </div>
+          </header>
+
+          <div class="cal-layout">
+            <div class="panel calendar-wrap">
+              <div class="weekday-row" aria-hidden="true">
+                <span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span>
+                <span>Qui</span><span>Sex</span><span>Sáb</span>
+              </div>
+              <div id="calendar-grid" class="calendar-grid" role="grid" aria-labelledby="month-label"></div>
+            </div>
+
+            <aside class="panel side-panel">
+              <div class="legend">
+                <h3>Legenda</h3>
+                <ul>
+                  <li><span class="dot nacional"></span> Feriado nacional</li>
+                  <li><span class="dot ponte"></span> Ponte</li>
+                  <li><span class="dot recesso"></span> Recesso</li>
+                  <li><span class="dot evento"></span> Evento empresa</li>
+                  <li><span class="dot aviso"></span> Aviso</li>
+                </ul>
+              </div>
+              <div class="day-detail">
+                <h3 id="detail-title">Selecione um dia</h3>
+                <ul id="detail-list" class="detail-list">
+                  <li class="muted">Clique em um dia para ver feriados e eventos.</li>
+                </ul>
+              </div>
+              <div class="month-list-wrap">
+                <h3>Neste mês</h3>
+                <ul id="month-events" class="month-events"></ul>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section id="view-iniciativas" class="view" hidden>
+          <header class="view-header">
+            <span class="badge">Iniciativas</span>
+            <h2>Espelho do Businessmap</h2>
+            <p>Colunas preparadas; sync automático depois.</p>
+          </header>
+          <div class="panel">
+            <p>Stub — nenhuma iniciativa carregada ainda.</p>
+            <p class="muted">Modelo de colunas em <code>planilha-modelo/</code>.</p>
+          </div>
+        </section>
+
+        <section id="view-ajuda" class="view" hidden>
+          <header class="view-header">
+            <span class="badge">Ajuda</span>
+            <h2>Pedidos de ajuda</h2>
+            <p>Iniciativas com flag marcada manualmente.</p>
+          </header>
+          <div class="panel">
+            <p>Stub — filtro <code>precisaAjuda = true</code> na Fatia 3.</p>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span>Times: Interfaces Conversacionais · Experiências</span>
+        <span>Visual inspirado no Giro do Colab</span>
+      </footer>
+    </div>
+
+    <?!= include('JavaScript'); ?>
+  </body>
+</html>

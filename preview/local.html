@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gestor360 (prévia local)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&family=IBM+Plex+Serif:ital,wght@1,500&display=swap" rel="stylesheet" />
+<style>
+  /* Visual alinhado ao Giro do Colab (print + tokens oficiais da comunicação) */
+  :root {
+    --azul: #2b4ee8;
+    --navy: #0a1e37;
+    --creme: #f4f1ec;
+    --texto: #4f5d6b;
+    --pessego: #ffba7c;
+    --borda: #e7e1d6;
+    --pill: #e9edfd;
+    --branco: #ffffff;
+    --nacional: #2b4ee8;
+    --ponte: #5b7cf0;
+    --recesso: #7a6bb5;
+    --evento: #e8893a;
+    --aviso: #c47a2c;
+    --shadow: 0 4px 18px rgba(10, 30, 55, 0.07);
+    --radius: 18px;
+    --radius-lg: 24px;
+    --font-ui: 'IBM Plex Sans', Roboto, Arial, sans-serif;
+    --font-accent: 'IBM Plex Serif', Georgia, serif;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    margin: 0;
+    min-height: 100%;
+  }
+
+  body {
+    font-family: var(--font-ui);
+    color: var(--navy);
+    background: var(--creme);
+    line-height: 1.5;
+  }
+
+  .site-header {
+    background: var(--branco);
+    border-bottom: 1px solid var(--borda);
+  }
+
+  .site-header-inner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0.95rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .brand-mark {
+    display: grid;
+    place-items: center;
+    width: 2.35rem;
+    height: 2.35rem;
+    border-radius: 999px;
+    background: var(--azul);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: -0.03em;
+  }
+
+  .brand-name {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--navy);
+  }
+
+  .header-note {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--texto);
+    text-align: right;
+    max-width: 15rem;
+  }
+
+  .page {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 1.5rem 1.5rem 2.5rem;
+  }
+
+  .eyebrow {
+    margin: 0 0 0.45rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--texto);
+  }
+
+  .eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 0.45rem;
+    height: 0.45rem;
+    margin-right: 0.45rem;
+    border-radius: 50%;
+    background: #7a6bb5;
+    vertical-align: 0.05em;
+  }
+
+  .greeting {
+    margin: 0 0 1.15rem;
+    font-size: clamp(1.7rem, 4vw, 2.35rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    color: var(--navy);
+  }
+
+  .greeting em {
+    font-family: var(--font-accent);
+    font-style: italic;
+    font-weight: 500;
+    color: var(--navy);
+  }
+
+  .nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-bottom: 1.25rem;
+    padding: 0.4rem;
+    background: var(--branco);
+    border: 1px solid var(--borda);
+    border-radius: 999px;
+    width: fit-content;
+    max-width: 100%;
+    box-shadow: var(--shadow);
+  }
+
+  .nav-btn {
+    border: 0;
+    background: transparent;
+    color: var(--navy);
+    font: inherit;
+    font-weight: 600;
+    font-size: 0.92rem;
+    padding: 0.55rem 0.95rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .nav-btn:hover {
+    background: var(--pill);
+    color: var(--azul);
+  }
+
+  .nav-btn.is-active {
+    background: var(--azul);
+    color: #fff;
+  }
+
+  .view-header {
+    margin-bottom: 0.95rem;
+  }
+
+  .view-header h2 {
+    margin: 0.45rem 0 0;
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--navy);
+  }
+
+  .view-header p {
+    margin: 0.35rem 0 0;
+    color: var(--texto);
+    font-size: 0.98rem;
+  }
+
+  .view-header-cal {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .badge {
+    display: inline-block;
+    background: var(--pill);
+    color: var(--azul);
+    border-radius: 999px;
+    padding: 0.28rem 0.7rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .month-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .month-label {
+    margin: 0;
+    min-width: 11rem;
+    text-align: center;
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-transform: capitalize;
+    color: var(--navy);
+  }
+
+  .icon-btn {
+    width: 2.35rem;
+    height: 2.35rem;
+    border-radius: 999px;
+    border: 1px solid var(--borda);
+    background: var(--branco);
+    font-size: 1.35rem;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--azul);
+    font-weight: 700;
+  }
+
+  .icon-btn:hover {
+    background: var(--pill);
+    border-color: var(--azul);
+  }
+
+  .cal-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(240px, 0.9fr);
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .panel {
+    background: var(--branco);
+    border: 1px solid var(--borda);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    padding: 1.15rem 1.2rem;
+  }
+
+  .calendar-wrap {
+    padding: 0.95rem;
+  }
+
+  .weekday-row,
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 0.35rem;
+  }
+
+  .weekday-row {
+    margin-bottom: 0.4rem;
+  }
+
+  .weekday-row span {
+    text-align: center;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--texto);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .day-cell {
+    min-height: 4.6rem;
+    border: 1px solid transparent;
+    border-radius: 14px;
+    padding: 0.35rem 0.4rem;
+    background: var(--creme);
+    text-align: left;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
+  }
+
+  .day-cell:hover {
+    border-color: rgba(43, 78, 232, 0.35);
+    background: #fff;
+    transform: translateY(-1px);
+  }
+
+  .day-cell.is-outside {
+    opacity: 0.38;
+  }
+
+  .day-cell.is-today {
+    box-shadow: inset 0 0 0 2px var(--azul);
+  }
+
+  .day-cell.is-selected {
+    background: var(--pill);
+    border-color: var(--azul);
+  }
+
+  .day-num {
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--navy);
+  }
+
+  .day-marks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem;
+  }
+
+  .mark {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+  }
+
+  .mark.nacional,
+  .mark.feriado { background: var(--nacional); }
+  .mark.ponte { background: var(--ponte); }
+  .mark.recesso { background: var(--recesso); }
+  .mark.evento { background: var(--evento); }
+  .mark.aviso { background: var(--aviso); }
+
+  .day-label {
+    font-size: 0.62rem;
+    color: var(--texto);
+    line-height: 1.2;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .side-panel {
+    display: grid;
+    gap: 1.1rem;
+  }
+
+  .side-panel h3 {
+    margin: 0 0 0.45rem;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--azul);
+    font-weight: 700;
+  }
+
+  .legend ul,
+  .detail-list,
+  .month-events {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .legend li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.35rem;
+    font-size: 0.9rem;
+    color: var(--texto);
+  }
+
+  .dot {
+    width: 0.65rem;
+    height: 0.65rem;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .dot.nacional { background: var(--nacional); }
+  .dot.ponte { background: var(--ponte); }
+  .dot.recesso { background: var(--recesso); }
+  .dot.evento { background: var(--evento); }
+  .dot.aviso { background: var(--aviso); }
+
+  .detail-list li,
+  .month-events li {
+    padding: 0.45rem 0;
+    border-bottom: 1px solid var(--borda);
+    font-size: 0.92rem;
+    color: var(--texto);
+  }
+
+  .detail-list li:last-child,
+  .month-events li:last-child {
+    border-bottom: 0;
+  }
+
+  #detail-title {
+    color: var(--navy);
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .event-tipo {
+    display: inline-block;
+    margin-right: 0.35rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--azul);
+  }
+
+  .muted {
+    color: var(--texto);
+  }
+
+  code {
+    font-size: 0.85em;
+    background: var(--pill);
+    color: var(--azul);
+    padding: 0.1em 0.35em;
+    border-radius: 0.35em;
+  }
+
+  .footer {
+    margin-top: 1.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem;
+    color: var(--texto);
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+
+  @media (max-width: 860px) {
+    .cal-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .nav {
+      border-radius: 18px;
+    }
+
+    .site-header-inner {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .header-note {
+      text-align: left;
+    }
+
+    .day-cell {
+      min-height: 3.6rem;
+    }
+
+    .day-label {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav-btn,
+    .day-cell,
+    .icon-btn {
+      transition: none;
+    }
+  }
+</style>
+
+</head>
+<body>
+    <header class="site-header">
+      <div class="site-header-inner">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">360</span>
+          <p class="brand-name">Gestor360</p>
+        </div>
+        <p class="header-note">Aprovação de férias permanece no ClickGB</p>
+      </div>
+    </header>
+
+    <div class="page">
+      <p class="eyebrow" id="greeting-date"></p>
+      <h1 class="greeting">
+        Visão e <em>planejamento</em> dos times
+      </h1>
+
+      <nav class="nav" aria-label="Visões principais">
+        <button type="button" class="nav-btn" data-view="ferias" aria-pressed="false">
+          Férias
+        </button>
+        <button type="button" class="nav-btn is-active" data-view="calendario" aria-pressed="true">
+          Calendário
+        </button>
+        <button type="button" class="nav-btn" data-view="iniciativas" aria-pressed="false">
+          Iniciativas
+        </button>
+        <button type="button" class="nav-btn" data-view="ajuda" aria-pressed="false">
+          Pedidos de ajuda
+        </button>
+      </nav>
+
+      <main class="main">
+        <section id="view-ferias" class="view" hidden>
+          <header class="view-header">
+            <span class="badge">Férias</span>
+            <h2>Quem está ou vai estar de férias</h2>
+            <p>Cadastro manual / planilha na próxima fatia.</p>
+          </header>
+          <div class="panel">
+            <p>Stub — ausências ainda não carregadas.</p>
+            <p class="muted">Use a visão <strong>Calendário</strong> para feriados e eventos de 2026.</p>
+          </div>
+        </section>
+
+        <section id="view-calendario" class="view">
+          <header class="view-header view-header-cal">
+            <div>
+              <span class="badge">Calendário</span>
+              <h2>Feriados GB 2026, pontes e eventos de canal</h2>
+            </div>
+            <div class="month-nav">
+              <button type="button" id="btn-prev-month" class="icon-btn" aria-label="Mês anterior">
+                ‹
+              </button>
+              <h3 id="month-label" class="month-label"></h3>
+              <button type="button" id="btn-next-month" class="icon-btn" aria-label="Próximo mês">
+                ›
+              </button>
+            </div>
+          </header>
+
+          <div class="cal-layout">
+            <div class="panel calendar-wrap">
+              <div class="weekday-row" aria-hidden="true">
+                <span>Dom</span><span>Seg</span><span>Ter</span><span>Qua</span>
+                <span>Qui</span><span>Sex</span><span>Sáb</span>
+              </div>
+              <div id="calendar-grid" class="calendar-grid" role="grid" aria-labelledby="month-label"></div>
+            </div>
+
+            <aside class="panel side-panel">
+              <div class="legend">
+                <h3>Legenda</h3>
+                <ul>
+                  <li><span class="dot nacional"></span> Feriado nacional</li>
+                  <li><span class="dot ponte"></span> Ponte</li>
+                  <li><span class="dot recesso"></span> Recesso</li>
+                  <li><span class="dot evento"></span> Evento empresa</li>
+                  <li><span class="dot aviso"></span> Aviso</li>
+                </ul>
+              </div>
+              <div class="day-detail">
+                <h3 id="detail-title">Selecione um dia</h3>
+                <ul id="detail-list" class="detail-list">
+                  <li class="muted">Clique em um dia para ver feriados e eventos.</li>
+                </ul>
+              </div>
+              <div class="month-list-wrap">
+                <h3>Neste mês</h3>
+                <ul id="month-events" class="month-events"></ul>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section id="view-iniciativas" class="view" hidden>
+          <header class="view-header">
+            <span class="badge">Iniciativas</span>
+            <h2>Espelho do Businessmap</h2>
+            <p>Colunas preparadas; sync automático depois.</p>
+          </header>
+          <div class="panel">
+            <p>Stub — nenhuma iniciativa carregada ainda.</p>
+            <p class="muted">Modelo de colunas em <code>planilha-modelo/</code>.</p>
+          </div>
+        </section>
+
+        <section id="view-ajuda" class="view" hidden>
+          <header class="view-header">
+            <span class="badge">Ajuda</span>
+            <h2>Pedidos de ajuda</h2>
+            <p>Iniciativas com flag marcada manualmente.</p>
+          </header>
+          <div class="panel">
+            <p>Stub — filtro <code>precisaAjuda = true</code> na Fatia 3.</p>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span>Times: Interfaces Conversacionais · Experiências</span>
+        <span>Visual inspirado no Giro do Colab</span>
+      </footer>
+    </div>
+<script>window.__GESTOR360_FALLBACK_SEED__ = {"ano": 2026, "times": [{"id": "interfaces-conversacionais", "nome": "Interfaces Conversacionais"}, {"id": "experiencias", "nome": "Experiências"}], "feriados": [{"date": "2026-01-01", "name": "Confraternização Universal", "tipo": "nacional"}, {"date": "2026-01-02", "name": "Ponte Confraternização Universal", "tipo": "ponte"}, {"date": "2026-02-16", "name": "Segunda-feira de Carnaval", "tipo": "nacional"}, {"date": "2026-02-17", "name": "Terça-feira de Carnaval", "tipo": "nacional"}, {"date": "2026-02-18", "name": "Quarta-feira de cinzas (meio período após 12h)", "tipo": "nacional"}, {"date": "2026-04-03", "name": "Sexta-feira da Paixão", "tipo": "nacional"}, {"date": "2026-04-20", "name": "Ponte Tiradentes", "tipo": "ponte"}, {"date": "2026-04-21", "name": "Tiradentes", "tipo": "nacional"}, {"date": "2026-05-01", "name": "Dia do Trabalhador", "tipo": "nacional"}, {"date": "2026-06-04", "name": "Corpus Christi", "tipo": "nacional"}, {"date": "2026-06-05", "name": "Ponte de Corpus Christi", "tipo": "ponte"}, {"date": "2026-09-07", "name": "Independência do Brasil", "tipo": "nacional"}, {"date": "2026-10-12", "name": "Nossa Senhora Aparecida", "tipo": "nacional"}, {"date": "2026-11-02", "name": "Finados", "tipo": "nacional"}, {"date": "2026-11-15", "name": "Proclamação da República", "tipo": "nacional"}, {"date": "2026-11-20", "name": "Dia Nacional de Zumbi e da Consciência Negra", "tipo": "nacional"}, {"date": "2026-12-25", "name": "Natal", "tipo": "nacional"}, {"date": "2026-12-26", "name": "Início recesso de final de ano (híbrido/remoto)", "tipo": "recesso", "endDate": "2026-12-31"}], "eventos": [{"start": "2026-11-02", "end": "2026-11-02", "name": "Feriado de Finados", "tipo": "feriado"}, {"start": "2026-11-03", "end": "2026-11-06", "name": "Semana de Cultura Antifraude", "tipo": "evento"}, {"start": "2026-11-06", "end": "2026-11-06", "name": "Talentos IA - Vencedores da Janela II", "tipo": "evento"}, {"start": "2026-11-10", "end": "2026-11-10", "name": "IA Labs - Live Workspace Studio", "tipo": "evento"}, {"start": "2026-11-12", "end": "2026-11-12", "name": "CEO Talks (diretores)", "tipo": "evento"}, {"start": "2026-11-20", "end": "2026-11-20", "name": "Feriado do Dia da Consciência Negra", "tipo": "feriado"}, {"start": "2026-11-23", "end": "2026-11-27", "name": "Semana de Beauty Week", "tipo": "evento"}, {"start": "2026-11-30", "end": "2026-11-30", "name": "Fim da isenção de coparticipação para exames preventivos", "tipo": "aviso"}]};</script>
+<script>
+  (function () {
+    var MESES = [
+      'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
+      'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'
+    ];
+
+    var state = {
+      year: 2026,
+      month: 10, // novembro (0-index) — mês com eventos de canal no seed
+      selected: null,
+      seed: null
+    };
+
+    function parseYmd(ymd) {
+      var p = ymd.split('-');
+      return new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+    }
+
+    function toYmd(date) {
+      var y = date.getFullYear();
+      var m = String(date.getMonth() + 1).padStart(2, '0');
+      var d = String(date.getDate()).padStart(2, '0');
+      return y + '-' + m + '-' + d;
+    }
+
+    function eachDateInRange(startYmd, endYmd) {
+      var out = [];
+      var cur = parseYmd(startYmd);
+      var end = parseYmd(endYmd || startYmd);
+      while (cur <= end) {
+        out.push(toYmd(cur));
+        cur.setDate(cur.getDate() + 1);
+      }
+      return out;
+    }
+
+    function expandItems(seed) {
+      var byDate = {};
+
+      function add(date, item) {
+        if (!byDate[date]) byDate[date] = [];
+        byDate[date].push(item);
+      }
+
+      (seed.feriados || []).forEach(function (f) {
+        var dates = eachDateInRange(f.date, f.endDate || f.date);
+        dates.forEach(function (d) {
+          add(d, {
+            name: f.name,
+            tipo: f.tipo || 'nacional',
+            origem: 'feriado'
+          });
+        });
+      });
+
+      (seed.eventos || []).forEach(function (e) {
+        var dates = eachDateInRange(e.start, e.end || e.start);
+        dates.forEach(function (d) {
+          add(d, {
+            name: e.name,
+            tipo: e.tipo || 'evento',
+            origem: 'evento'
+          });
+        });
+      });
+
+      return byDate;
+    }
+
+    function uniqueTipos(items) {
+      var seen = {};
+      var out = [];
+      items.forEach(function (it) {
+        var t = it.tipo || 'evento';
+        if (!seen[t]) {
+          seen[t] = true;
+          out.push(t);
+        }
+      });
+      return out;
+    }
+
+    function setView(viewId) {
+      var views = ['ferias', 'calendario', 'iniciativas', 'ajuda'];
+      views.forEach(function (id) {
+        var el = document.getElementById('view-' + id);
+        if (el) el.hidden = id !== viewId;
+      });
+      document.querySelectorAll('.nav-btn').forEach(function (btn) {
+        var active = btn.getAttribute('data-view') === viewId;
+        btn.classList.toggle('is-active', active);
+        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+    }
+
+    function renderMonthList(byDate) {
+      var list = document.getElementById('month-events');
+      list.innerHTML = '';
+      var y = state.year;
+      var m = state.month;
+      var keys = Object.keys(byDate).filter(function (k) {
+        var d = parseYmd(k);
+        return d.getFullYear() === y && d.getMonth() === m;
+      }).sort();
+
+      if (!keys.length) {
+        list.innerHTML = '<li class="muted">Nenhum feriado ou evento neste mês.</li>';
+        return;
+      }
+
+      var seenNames = {};
+      keys.forEach(function (k) {
+        byDate[k].forEach(function (it) {
+          var key = k + '|' + it.name;
+          if (seenNames[key]) return;
+          seenNames[key] = true;
+          var li = document.createElement('li');
+          var day = k.slice(8);
+          li.innerHTML =
+            '<span class="event-tipo">' + day + ' · ' + it.tipo + '</span>' +
+            escapeHtml(it.name);
+          list.appendChild(li);
+        });
+      });
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function showDetail(ymd, items) {
+      var title = document.getElementById('detail-title');
+      var list = document.getElementById('detail-list');
+      var d = parseYmd(ymd);
+      title.textContent =
+        d.getDate() + ' de ' + MESES[d.getMonth()] + ' de ' + d.getFullYear();
+      list.innerHTML = '';
+
+      if (!items || !items.length) {
+        list.innerHTML = '<li class="muted">Sem feriados ou eventos neste dia.</li>';
+        return;
+      }
+
+      items.forEach(function (it) {
+        var li = document.createElement('li');
+        li.innerHTML =
+          '<span class="event-tipo">' + escapeHtml(it.tipo) + '</span>' +
+          escapeHtml(it.name);
+        list.appendChild(li);
+      });
+    }
+
+    function renderCalendar() {
+      var byDate = expandItems(state.seed);
+      var grid = document.getElementById('calendar-grid');
+      var label = document.getElementById('month-label');
+      label.textContent = MESES[state.month] + ' ' + state.year;
+
+      var first = new Date(state.year, state.month, 1);
+      var startPad = first.getDay();
+      var daysInMonth = new Date(state.year, state.month + 1, 0).getDate();
+      var prevDays = new Date(state.year, state.month, 0).getDate();
+
+      grid.innerHTML = '';
+      var todayYmd = toYmd(new Date());
+      var totalCells = 42;
+
+      for (var i = 0; i < totalCells; i++) {
+        var dayNum;
+        var cellDate;
+        var outside = false;
+
+        if (i < startPad) {
+          dayNum = prevDays - startPad + i + 1;
+          cellDate = new Date(state.year, state.month - 1, dayNum);
+          outside = true;
+        } else if (i >= startPad + daysInMonth) {
+          dayNum = i - (startPad + daysInMonth) + 1;
+          cellDate = new Date(state.year, state.month + 1, dayNum);
+          outside = true;
+        } else {
+          dayNum = i - startPad + 1;
+          cellDate = new Date(state.year, state.month, dayNum);
+        }
+
+        var ymd = toYmd(cellDate);
+        var items = byDate[ymd] || [];
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'day-cell';
+        if (outside) btn.classList.add('is-outside');
+        if (ymd === todayYmd) btn.classList.add('is-today');
+        if (state.selected === ymd) btn.classList.add('is-selected');
+        btn.setAttribute('data-date', ymd);
+        btn.setAttribute('aria-label', ymd);
+
+        var marks = uniqueTipos(items)
+          .map(function (t) {
+            return '<span class="mark ' + t + '"></span>';
+          })
+          .join('');
+
+        var shortLabel = items.length
+          ? '<span class="day-label">' + escapeHtml(items[0].name) + '</span>'
+          : '';
+
+        btn.innerHTML =
+          '<span class="day-num">' + dayNum + '</span>' +
+          '<span class="day-marks">' + marks + '</span>' +
+          shortLabel;
+
+        btn.addEventListener('click', function (ev) {
+          var date = ev.currentTarget.getAttribute('data-date');
+          state.selected = date;
+          renderCalendar();
+          showDetail(date, byDate[date] || []);
+        });
+
+        grid.appendChild(btn);
+      }
+
+      renderMonthList(byDate);
+
+      if (state.selected) {
+        var sel = parseYmd(state.selected);
+        if (sel.getFullYear() === state.year && sel.getMonth() === state.month) {
+          showDetail(state.selected, byDate[state.selected] || []);
+        }
+      }
+    }
+
+    var DIAS_SEMANA = [
+      'domingo', 'segunda-feira', 'terça-feira', 'quarta-feira',
+      'quinta-feira', 'sexta-feira', 'sábado'
+    ];
+
+    function setGreetingDate() {
+      var el = document.getElementById('greeting-date');
+      if (!el) return;
+      var now = new Date();
+      var label =
+        DIAS_SEMANA[now.getDay()] +
+        ', ' +
+        now.getDate() +
+        ' de ' +
+        MESES[now.getMonth()] +
+        ' de ' +
+        now.getFullYear();
+      el.textContent = label;
+    }
+
+    function bindNav() {
+      document.querySelectorAll('.nav-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          setView(btn.getAttribute('data-view'));
+        });
+      });
+
+      document.getElementById('btn-prev-month').addEventListener('click', function () {
+        state.month -= 1;
+        if (state.month < 0) {
+          state.month = 11;
+          state.year -= 1;
+        }
+        renderCalendar();
+      });
+
+      document.getElementById('btn-next-month').addEventListener('click', function () {
+        state.month += 1;
+        if (state.month > 11) {
+          state.month = 0;
+          state.year += 1;
+        }
+        renderCalendar();
+      });
+    }
+
+    function boot(seed) {
+      state.seed = seed || { feriados: [], eventos: [] };
+      setGreetingDate();
+      bindNav();
+      setView('calendario');
+      renderCalendar();
+    }
+
+    // Apps Script: busca seed no servidor. Fallback local se abrir HTML fora do GAS.
+    if (typeof google !== 'undefined' && google.script && google.script.run) {
+      google.script.run
+        .withSuccessHandler(boot)
+        .withFailureHandler(function () {
+          boot(window.__GESTOR360_FALLBACK_SEED__ || null);
+        })
+        .getCalendarioSeed();
+    } else {
+      boot(window.__GESTOR360_FALLBACK_SEED__ || null);
+    }
+  })();
+</script>
+
+</body>
+</html>
