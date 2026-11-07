@@ -234,6 +234,26 @@
       }
     }
 
+    var DIAS_SEMANA = [
+      'domingo', 'segunda-feira', 'terça-feira', 'quarta-feira',
+      'quinta-feira', 'sexta-feira', 'sábado'
+    ];
+
+    function setGreetingDate() {
+      var el = document.getElementById('greeting-date');
+      if (!el) return;
+      var now = new Date();
+      var label =
+        DIAS_SEMANA[now.getDay()] +
+        ', ' +
+        now.getDate() +
+        ' de ' +
+        MESES[now.getMonth()] +
+        ' de ' +
+        now.getFullYear();
+      el.textContent = label;
+    }
+
     function bindNav() {
       document.querySelectorAll('.nav-btn').forEach(function (btn) {
         btn.addEventListener('click', function () {
@@ -262,6 +282,7 @@
 
     function boot(seed) {
       state.seed = seed || { feriados: [], eventos: [] };
+      setGreetingDate();
       bindNav();
       setView('calendario');
       renderCalendar();
