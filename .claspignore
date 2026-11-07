@@ -6,5 +6,6 @@
 !Stylesheet.html
 !JavaScript.html
 !FeriasData.gs
+!IniciativasData.gs
 .git/**
 node_modules/**

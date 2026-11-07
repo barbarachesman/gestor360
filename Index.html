@@ -115,12 +115,29 @@
         <section id="view-iniciativas" class="view" hidden>
           <header class="view-header">
             <span class="badge">Iniciativas</span>
-            <h2>Espelho do Businessmap</h2>
-            <p>Colunas preparadas; sync automático depois.</p>
+            <h2>Canva de Produto — WhatsApp</h2>
+            <p>
+              Fonte:
+              <a
+                href="https://docs.google.com/spreadsheets/d/1Qc601hX2D6uNKvKVPkV4MjR_yWf_jNe5cTZDf_td33Y/edit"
+                target="_blank"
+                rel="noopener noreferrer"
+                >planilha de referência</a
+              >
+            </p>
           </header>
-          <div class="panel">
-            <p>Stub — nenhuma iniciativa carregada ainda.</p>
-            <p class="muted">Modelo de colunas em <code>planilha-modelo/</code>.</p>
+          <div class="ini-layout">
+            <aside class="ini-submenu panel" aria-label="Submenu de iniciativas">
+              <h3>Iniciativas</h3>
+              <button type="button" class="ini-sub-btn is-active" data-ini="lista">
+                Todas
+              </button>
+              <nav id="ini-submenu" class="ini-sub-list"></nav>
+            </aside>
+            <div class="ini-main">
+              <div id="ini-list" class="ini-list"></div>
+              <article id="ini-detail" class="ini-detail panel" hidden></article>
+            </div>
           </div>
         </section>
 

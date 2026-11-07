@@ -42,8 +42,8 @@ function getFerias() {
 }
 
 /**
- * Stub para Fatia 3: iniciativas espelhadas do Businessmap.
+ * Iniciativas do Canva de Produto (planilha WhatsApp).
  */
 function getIniciativas() {
-  return [];
+  return getIniciativasPayload();
 }

@@ -15,7 +15,9 @@
       month: 10,
       selected: null,
       seed: null,
-      ferias: null
+      ferias: null,
+      iniciativas: null,
+      iniSlug: null
     };
 
     function parseYmd(ymd) {
@@ -112,10 +114,10 @@
 
     function statusClass(label) {
       var s = String(label || '').toLowerCase();
-      if (s.indexOf('efetiv') >= 0) return 'efetivada';
-      if (s.indexOf('aprovad') >= 0) return 'aprovada';
-      if (s.indexOf('aguard') >= 0) return 'aguardando';
-      if (s.indexOf('programar') >= 0) return 'programar';
+      if (s.indexOf('efetiv') >= 0 || s.indexOf('finaliz') >= 0) return 'efetivada';
+      if (s.indexOf('aprovad') >= 0 || s === 'ativo') return 'aprovada';
+      if (s.indexOf('aguard') >= 0 || s.indexOf('andamento') >= 0) return 'aguardando';
+      if (s.indexOf('programar') >= 0 || s.indexOf('pendente') >= 0) return 'programar';
       if (s.indexOf('completo') >= 0) return 'completo';
       if (s.indexOf('incompleto') >= 0) return 'incompleto';
       return 'programar';
@@ -340,6 +342,186 @@
       });
     }
 
+    function findIniciativa(slug) {
+      var list = (state.iniciativas && state.iniciativas.iniciativas) || [];
+      for (var i = 0; i < list.length; i++) {
+        if (list[i].slug === slug) return list[i];
+      }
+      return null;
+    }
+
+    function renderIniSubmenu() {
+      var nav = document.getElementById('ini-submenu');
+      if (!nav) return;
+      var list = (state.iniciativas && state.iniciativas.iniciativas) || [];
+      nav.innerHTML = '';
+      list.forEach(function (ini) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'ini-sub-btn';
+        if (state.iniSlug === ini.slug) btn.classList.add('is-active');
+        btn.setAttribute('data-ini', ini.slug);
+        btn.textContent = ini.titulo;
+        btn.title = ini.titulo;
+        btn.addEventListener('click', function () {
+          showIniciativa(ini.slug);
+        });
+        nav.appendChild(btn);
+      });
+
+      document.querySelectorAll('.ini-sub-btn[data-ini="lista"]').forEach(function (btn) {
+        btn.classList.toggle('is-active', !state.iniSlug);
+      });
+    }
+
+    function snippet(text, maxLen) {
+      var t = String(text || '').replace(/\s+/g, ' ').trim();
+      if (t.length <= maxLen) return t;
+      return t.slice(0, maxLen - 1) + '…';
+    }
+
+    function renderIniList() {
+      var root = document.getElementById('ini-list');
+      var detail = document.getElementById('ini-detail');
+      if (!root || !detail) return;
+      detail.hidden = true;
+      root.hidden = false;
+      root.innerHTML = '';
+      var list = (state.iniciativas && state.iniciativas.iniciativas) || [];
+      if (!list.length) {
+        root.innerHTML = '<div class="panel"><p class="muted">Nenhuma iniciativa carregada.</p></div>';
+        return;
+      }
+      list.forEach(function (ini) {
+        var card = document.createElement('article');
+        card.className = 'ini-card';
+        card.innerHTML =
+          '<div class="ini-meta">' +
+          '<span class="status-pill ' +
+          statusClass(ini.status) +
+          '">' +
+          escapeHtml(ini.status || 'Ativo') +
+          '</span>' +
+          (ini.id
+            ? '<span>' + escapeHtml(ini.id) + '</span>'
+            : '') +
+          '</div>' +
+          '<h3><a href="' +
+          escapeHtml(ini.urlReferencia || '#') +
+          '" target="_blank" rel="noopener noreferrer">' +
+          escapeHtml(ini.titulo) +
+          '</a></h3>' +
+          '<div class="ini-block"><h4>Stakeholders</h4><p>' +
+          escapeHtml(snippet(ini.stakeholders, 220)) +
+          '</p></div>' +
+          '<div class="ini-block"><h4>Métricas de sucesso</h4><p>' +
+          escapeHtml(snippet(ini.metricasSucesso, 220)) +
+          '</p></div>' +
+          '<div class="ini-detail-actions">' +
+          '<button type="button" class="year-btn" data-open-ini="' +
+          escapeHtml(ini.slug) +
+          '">Ver detalhes</button>' +
+          '</div>';
+        root.appendChild(card);
+      });
+      root.querySelectorAll('[data-open-ini]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          showIniciativa(btn.getAttribute('data-open-ini'));
+        });
+      });
+    }
+
+    function renderIniDetail(ini) {
+      var root = document.getElementById('ini-list');
+      var detail = document.getElementById('ini-detail');
+      if (!root || !detail || !ini) return;
+      root.hidden = true;
+      detail.hidden = false;
+      var entregas = (ini.entregas || [])
+        .map(function (e) {
+          return '<li>' + escapeHtml(e) + '</li>';
+        })
+        .join('');
+      detail.innerHTML =
+        '<div class="ini-detail-actions">' +
+        '<button type="button" class="year-btn" id="ini-back">← Todas</button>' +
+        '<a class="year-btn" href="' +
+        escapeHtml(ini.urlReferencia || '#') +
+        '" target="_blank" rel="noopener noreferrer">Abrir planilha</a>' +
+        '</div>' +
+        '<div class="ini-meta">' +
+        '<span class="status-pill ' +
+        statusClass(ini.status) +
+        '">' +
+        escapeHtml(ini.status || 'Ativo') +
+        '</span>' +
+        '<span>' +
+        escapeHtml(ini.id || '') +
+        '</span>' +
+        (ini.abaCanvas
+          ? '<span>Aba canvas: ' + escapeHtml(ini.abaCanvas) + '</span>'
+          : '') +
+        '</div>' +
+        '<h2><a href="' +
+        escapeHtml(ini.urlReferencia || '#') +
+        '" target="_blank" rel="noopener noreferrer">' +
+        escapeHtml(ini.titulo) +
+        '</a></h2>' +
+        '<div class="ini-block"><h4>Stakeholders</h4><p>' +
+        escapeHtml(ini.stakeholders || '—') +
+        '</p></div>' +
+        '<div class="ini-block"><h4>Métricas de sucesso da entrega</h4><p>' +
+        escapeHtml(ini.metricasSucesso || '—') +
+        '</p></div>' +
+        '<div class="ini-block"><h4>Resumo</h4><p>' +
+        escapeHtml(ini.resumo || '—') +
+        '</p></div>' +
+        '<div class="ini-block"><h4>Objetivo</h4><p>' +
+        escapeHtml(ini.objetivo || '—') +
+        '</p></div>' +
+        (entregas
+          ? '<div class="ini-block"><h4>Principais entregas</h4><ul>' +
+            entregas +
+            '</ul></div>'
+          : '') +
+        (ini.ganhosCanal
+          ? '<div class="ini-block"><h4>Ganhos para o canal</h4><p>' +
+            escapeHtml(ini.ganhosCanal) +
+            '</p></div>'
+          : '') +
+        (ini.ganhosCliente
+          ? '<div class="ini-block"><h4>Ganhos para o cliente</h4><p>' +
+            escapeHtml(ini.ganhosCliente) +
+            '</p></div>'
+          : '') +
+        (ini.problemaOportunidade
+          ? '<div class="ini-block"><h4>Problema / oportunidade</h4><p>' +
+            escapeHtml(ini.problemaOportunidade) +
+            '</p></div>'
+          : '');
+      var back = document.getElementById('ini-back');
+      if (back) {
+        back.addEventListener('click', function () {
+          showIniciativa(null);
+        });
+      }
+    }
+
+    function showIniciativa(slug) {
+      state.iniSlug = slug || null;
+      renderIniSubmenu();
+      if (!slug) {
+        renderIniList();
+        return;
+      }
+      var ini = findIniciativa(slug);
+      if (!ini) {
+        showIniciativa(null);
+        return;
+      }
+      renderIniDetail(ini);
+    }
+
     function setGreetingDate() {
       var el = document.getElementById('greeting-date');
       if (!el) return;
@@ -358,6 +540,12 @@
       document.querySelectorAll('.nav-btn').forEach(function (btn) {
         btn.addEventListener('click', function () {
           setView(btn.getAttribute('data-view'));
+        });
+      });
+
+      document.querySelectorAll('.ini-sub-btn[data-ini="lista"]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          showIniciativa(null);
         });
       });
 
@@ -387,15 +575,17 @@
       });
     }
 
-    function boot(seed, ferias) {
+    function boot(seed, ferias, iniciativas) {
       state.seed = seed || { feriados: [], eventos: [], ausencias: [] };
       if (!state.seed.ausencias && ferias && ferias.ausencias) {
         state.seed.ausencias = ferias.ausencias;
       }
       state.ferias = ferias || { pessoas: [], ausencias: state.seed.ausencias || [] };
+      state.iniciativas = iniciativas || { iniciativas: [] };
       setGreetingDate();
       bindNav();
       renderFerias();
+      showIniciativa(null);
       setView('calendario');
       renderCalendar();
     }
@@ -409,18 +599,20 @@
           eventos: fb.eventos || [],
           ausencias: fb.ausencias || []
         },
-        fb.ferias || { pessoas: fb.pessoas || [], ausencias: fb.ausencias || [] }
+        fb.ferias || { pessoas: fb.pessoas || [], ausencias: fb.ausencias || [] },
+        fb.iniciativasPayload || { iniciativas: fb.iniciativas || [] }
       );
     }
 
     if (typeof google !== 'undefined' && google.script && google.script.run) {
       var calSeed = null;
       var feriasSeed = null;
-      var pending = 2;
+      var iniSeed = null;
+      var pending = 3;
 
       function maybeBoot() {
         pending -= 1;
-        if (pending === 0) boot(calSeed, feriasSeed);
+        if (pending === 0) boot(calSeed, feriasSeed, iniSeed);
       }
 
       google.script.run
@@ -441,6 +633,17 @@
           maybeBoot();
         })
         .getFerias();
+
+      google.script.run
+        .withSuccessHandler(function (data) {
+          iniSeed = data;
+          maybeBoot();
+        })
+        .withFailureHandler(function () {
+          iniSeed = { iniciativas: [] };
+          maybeBoot();
+        })
+        .getIniciativas();
     } else {
       bootFromFallback();
     }
