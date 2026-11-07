@@ -1,0 +1,27 @@
+dataInicio,dataFim,nome,tipo,origem
+2026-01-01,2026-01-01,Confraternização Universal,nacional,gb-oficial
+2026-01-02,2026-01-02,Ponte Confraternização Universal,ponte,gb-oficial
+2026-02-16,2026-02-16,Segunda-feira de Carnaval,nacional,gb-oficial
+2026-02-17,2026-02-17,Terça-feira de Carnaval,nacional,gb-oficial
+2026-02-18,2026-02-18,Quarta-feira de cinzas (meio período após 12h),nacional,gb-oficial
+2026-04-03,2026-04-03,Sexta-feira da Paixão,nacional,gb-oficial
+2026-04-20,2026-04-20,Ponte Tiradentes,ponte,gb-oficial
+2026-04-21,2026-04-21,Tiradentes,nacional,gb-oficial
+2026-05-01,2026-05-01,Dia do Trabalhador,nacional,gb-oficial
+2026-06-04,2026-06-04,Corpus Christi,nacional,gb-oficial
+2026-06-05,2026-06-05,Ponte de Corpus Christi,ponte,gb-oficial
+2026-09-07,2026-09-07,Independência do Brasil,nacional,gb-oficial
+2026-10-12,2026-10-12,Nossa Senhora Aparecida,nacional,gb-oficial
+2026-11-02,2026-11-02,Finados,nacional,gb-oficial
+2026-11-15,2026-11-15,Proclamação da República,nacional,gb-oficial
+2026-11-20,2026-11-20,Dia Nacional de Zumbi e da Consciência Negra,nacional,gb-oficial
+2026-12-25,2026-12-25,Natal,nacional,gb-oficial
+2026-12-26,2026-12-31,Início recesso de final de ano (híbrido/remoto),recesso,gb-oficial
+2026-11-02,2026-11-02,Feriado de Finados,feriado,canal
+2026-11-03,2026-11-06,Semana de Cultura Antifraude,evento,canal
+2026-11-06,2026-11-06,Talentos IA - Vencedores da Janela II,evento,canal
+2026-11-10,2026-11-10,IA Labs - Live Workspace Studio,evento,canal
+2026-11-12,2026-11-12,CEO Talks (diretores),evento,canal
+2026-11-20,2026-11-20,Feriado do Dia da Consciência Negra,feriado,canal
+2026-11-23,2026-11-27,Semana de Beauty Week,evento,canal
+2026-11-30,2026-11-30,Fim da isenção de coparticipação para exames preventivos,aviso,canal

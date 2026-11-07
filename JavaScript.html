@@ -1,0 +1,282 @@
+<script>
+  (function () {
+    var MESES = [
+      'janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho',
+      'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'
+    ];
+
+    var state = {
+      year: 2026,
+      month: 10, // novembro (0-index) — mês com eventos de canal no seed
+      selected: null,
+      seed: null
+    };
+
+    function parseYmd(ymd) {
+      var p = ymd.split('-');
+      return new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+    }
+
+    function toYmd(date) {
+      var y = date.getFullYear();
+      var m = String(date.getMonth() + 1).padStart(2, '0');
+      var d = String(date.getDate()).padStart(2, '0');
+      return y + '-' + m + '-' + d;
+    }
+
+    function eachDateInRange(startYmd, endYmd) {
+      var out = [];
+      var cur = parseYmd(startYmd);
+      var end = parseYmd(endYmd || startYmd);
+      while (cur <= end) {
+        out.push(toYmd(cur));
+        cur.setDate(cur.getDate() + 1);
+      }
+      return out;
+    }
+
+    function expandItems(seed) {
+      var byDate = {};
+
+      function add(date, item) {
+        if (!byDate[date]) byDate[date] = [];
+        byDate[date].push(item);
+      }
+
+      (seed.feriados || []).forEach(function (f) {
+        var dates = eachDateInRange(f.date, f.endDate || f.date);
+        dates.forEach(function (d) {
+          add(d, {
+            name: f.name,
+            tipo: f.tipo || 'nacional',
+            origem: 'feriado'
+          });
+        });
+      });
+
+      (seed.eventos || []).forEach(function (e) {
+        var dates = eachDateInRange(e.start, e.end || e.start);
+        dates.forEach(function (d) {
+          add(d, {
+            name: e.name,
+            tipo: e.tipo || 'evento',
+            origem: 'evento'
+          });
+        });
+      });
+
+      return byDate;
+    }
+
+    function uniqueTipos(items) {
+      var seen = {};
+      var out = [];
+      items.forEach(function (it) {
+        var t = it.tipo || 'evento';
+        if (!seen[t]) {
+          seen[t] = true;
+          out.push(t);
+        }
+      });
+      return out;
+    }
+
+    function setView(viewId) {
+      var views = ['ferias', 'calendario', 'iniciativas', 'ajuda'];
+      views.forEach(function (id) {
+        var el = document.getElementById('view-' + id);
+        if (el) el.hidden = id !== viewId;
+      });
+      document.querySelectorAll('.nav-btn').forEach(function (btn) {
+        var active = btn.getAttribute('data-view') === viewId;
+        btn.classList.toggle('is-active', active);
+        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+    }
+
+    function renderMonthList(byDate) {
+      var list = document.getElementById('month-events');
+      list.innerHTML = '';
+      var y = state.year;
+      var m = state.month;
+      var keys = Object.keys(byDate).filter(function (k) {
+        var d = parseYmd(k);
+        return d.getFullYear() === y && d.getMonth() === m;
+      }).sort();
+
+      if (!keys.length) {
+        list.innerHTML = '<li class="muted">Nenhum feriado ou evento neste mês.</li>';
+        return;
+      }
+
+      var seenNames = {};
+      keys.forEach(function (k) {
+        byDate[k].forEach(function (it) {
+          var key = k + '|' + it.name;
+          if (seenNames[key]) return;
+          seenNames[key] = true;
+          var li = document.createElement('li');
+          var day = k.slice(8);
+          li.innerHTML =
+            '<span class="event-tipo">' + day + ' · ' + it.tipo + '</span>' +
+            escapeHtml(it.name);
+          list.appendChild(li);
+        });
+      });
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function showDetail(ymd, items) {
+      var title = document.getElementById('detail-title');
+      var list = document.getElementById('detail-list');
+      var d = parseYmd(ymd);
+      title.textContent =
+        d.getDate() + ' de ' + MESES[d.getMonth()] + ' de ' + d.getFullYear();
+      list.innerHTML = '';
+
+      if (!items || !items.length) {
+        list.innerHTML = '<li class="muted">Sem feriados ou eventos neste dia.</li>';
+        return;
+      }
+
+      items.forEach(function (it) {
+        var li = document.createElement('li');
+        li.innerHTML =
+          '<span class="event-tipo">' + escapeHtml(it.tipo) + '</span>' +
+          escapeHtml(it.name);
+        list.appendChild(li);
+      });
+    }
+
+    function renderCalendar() {
+      var byDate = expandItems(state.seed);
+      var grid = document.getElementById('calendar-grid');
+      var label = document.getElementById('month-label');
+      label.textContent = MESES[state.month] + ' ' + state.year;
+
+      var first = new Date(state.year, state.month, 1);
+      var startPad = first.getDay();
+      var daysInMonth = new Date(state.year, state.month + 1, 0).getDate();
+      var prevDays = new Date(state.year, state.month, 0).getDate();
+
+      grid.innerHTML = '';
+      var todayYmd = toYmd(new Date());
+      var totalCells = 42;
+
+      for (var i = 0; i < totalCells; i++) {
+        var dayNum;
+        var cellDate;
+        var outside = false;
+
+        if (i < startPad) {
+          dayNum = prevDays - startPad + i + 1;
+          cellDate = new Date(state.year, state.month - 1, dayNum);
+          outside = true;
+        } else if (i >= startPad + daysInMonth) {
+          dayNum = i - (startPad + daysInMonth) + 1;
+          cellDate = new Date(state.year, state.month + 1, dayNum);
+          outside = true;
+        } else {
+          dayNum = i - startPad + 1;
+          cellDate = new Date(state.year, state.month, dayNum);
+        }
+
+        var ymd = toYmd(cellDate);
+        var items = byDate[ymd] || [];
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'day-cell';
+        if (outside) btn.classList.add('is-outside');
+        if (ymd === todayYmd) btn.classList.add('is-today');
+        if (state.selected === ymd) btn.classList.add('is-selected');
+        btn.setAttribute('data-date', ymd);
+        btn.setAttribute('aria-label', ymd);
+
+        var marks = uniqueTipos(items)
+          .map(function (t) {
+            return '<span class="mark ' + t + '"></span>';
+          })
+          .join('');
+
+        var shortLabel = items.length
+          ? '<span class="day-label">' + escapeHtml(items[0].name) + '</span>'
+          : '';
+
+        btn.innerHTML =
+          '<span class="day-num">' + dayNum + '</span>' +
+          '<span class="day-marks">' + marks + '</span>' +
+          shortLabel;
+
+        btn.addEventListener('click', function (ev) {
+          var date = ev.currentTarget.getAttribute('data-date');
+          state.selected = date;
+          renderCalendar();
+          showDetail(date, byDate[date] || []);
+        });
+
+        grid.appendChild(btn);
+      }
+
+      renderMonthList(byDate);
+
+      if (state.selected) {
+        var sel = parseYmd(state.selected);
+        if (sel.getFullYear() === state.year && sel.getMonth() === state.month) {
+          showDetail(state.selected, byDate[state.selected] || []);
+        }
+      }
+    }
+
+    function bindNav() {
+      document.querySelectorAll('.nav-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          setView(btn.getAttribute('data-view'));
+        });
+      });
+
+      document.getElementById('btn-prev-month').addEventListener('click', function () {
+        state.month -= 1;
+        if (state.month < 0) {
+          state.month = 11;
+          state.year -= 1;
+        }
+        renderCalendar();
+      });
+
+      document.getElementById('btn-next-month').addEventListener('click', function () {
+        state.month += 1;
+        if (state.month > 11) {
+          state.month = 0;
+          state.year += 1;
+        }
+        renderCalendar();
+      });
+    }
+
+    function boot(seed) {
+      state.seed = seed || { feriados: [], eventos: [] };
+      bindNav();
+      setView('calendario');
+      renderCalendar();
+    }
+
+    // Apps Script: busca seed no servidor. Fallback local se abrir HTML fora do GAS.
+    if (typeof google !== 'undefined' && google.script && google.script.run) {
+      google.script.run
+        .withSuccessHandler(boot)
+        .withFailureHandler(function () {
+          boot(window.__GESTOR360_FALLBACK_SEED__ || null);
+        })
+        .getCalendarioSeed();
+    } else {
+      boot(window.__GESTOR360_FALLBACK_SEED__ || null);
+    }
+  })();
+</script>

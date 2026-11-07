@@ -1,0 +1,9 @@
+**/**
+!appsscript.json
+!Code.gs
+!SeedData.gs
+!Index.html
+!Stylesheet.html
+!JavaScript.html
+.git/**
+node_modules/**
