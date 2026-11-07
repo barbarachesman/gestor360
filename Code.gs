@@ -1,6 +1,6 @@
 /**
  * Gestor360 — painel do gestor (Apps Script)
- * Fatias 0–1: shell de navegação + calendário com seed 2026.
+ * Shell de navegação + calendário 2026/2027 + férias dos subordinados.
  */
 
 function doGet() {
@@ -20,18 +20,25 @@ function include(filename) {
 }
 
 /**
- * Dados iniciais do calendário (seed embutido).
- * Depois: ler abas Feriados / Eventos da planilha modelo.
+ * Seed do calendário (feriados/eventos) + ausências de férias.
  */
 function getCalendarioSeed() {
-  return getSeedPayload();
+  var seed = getSeedPayload();
+  var ferias = getFeriasPayload();
+  return {
+    anos: seed.anos || [2026, 2027],
+    times: seed.times || [],
+    feriados: seed.feriados || [],
+    eventos: seed.eventos || [],
+    ausencias: (ferias && ferias.ausencias) || []
+  };
 }
 
 /**
- * Stub para Fatia 2+: ausências/férias da planilha.
+ * Painel de férias: pessoas, saldos e programações.
  */
-function getAusencias() {
-  return [];
+function getFerias() {
+  return getFeriasPayload();
 }
 
 /**

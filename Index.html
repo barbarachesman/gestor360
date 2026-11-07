@@ -50,20 +50,21 @@
         <section id="view-ferias" class="view" hidden>
           <header class="view-header">
             <span class="badge">Férias</span>
-            <h2>Quem está ou vai estar de férias</h2>
-            <p>Cadastro manual / planilha na próxima fatia.</p>
+            <h2>Status das férias do time</h2>
+            <p>Saldos, períodos e programações a partir da planilha de subordinados.</p>
           </header>
-          <div class="panel">
-            <p>Stub — ausências ainda não carregadas.</p>
-            <p class="muted">Use a visão <strong>Calendário</strong> para feriados e eventos de 2026.</p>
-          </div>
+          <div id="ferias-list" class="ferias-list"></div>
         </section>
 
         <section id="view-calendario" class="view">
           <header class="view-header view-header-cal">
             <div>
               <span class="badge">Calendário</span>
-              <h2>Feriados GB 2026, pontes e eventos de canal</h2>
+              <h2>Feriados, férias do time e eventos de canal</h2>
+              <div class="year-switch" role="group" aria-label="Ano do calendário">
+                <button type="button" class="year-btn is-active" data-year="2026">2026</button>
+                <button type="button" class="year-btn" data-year="2027">2027</button>
+              </div>
             </div>
             <div class="month-nav">
               <button type="button" id="btn-prev-month" class="icon-btn" aria-label="Mês anterior">
@@ -94,6 +95,7 @@
                   <li><span class="dot recesso"></span> Recesso</li>
                   <li><span class="dot evento"></span> Evento empresa</li>
                   <li><span class="dot aviso"></span> Aviso</li>
+                  <li><span class="dot ferias"></span> Férias do time</li>
                 </ul>
               </div>
               <div class="day-detail">

@@ -9,9 +9,10 @@ Stack: **HTML + JavaScript em Google Apps Script**, sem banco. Dados em **Google
 - Scaffold Apps Script (`Code.gs`, `SeedData.gs`, `Index.html`, `Stylesheet.html`, `JavaScript.html`, `appsscript.json`)
 - Shell com 5 visões: Férias · Calendário · Iniciativas · Pedidos de ajuda · Cultura Time
 - Cultura Time: atalhos para DoD Dor, Tenets e pesquisa de pulso/clima da semana
-- Calendário mensal com seed de feriados nacionais/pontes 2026 + eventos de canal de novembro/2026
+- **Férias**: status/saldos/programações da planilha `data/ferias-subordinados.xlsx` (também no calendário)
+- Calendário 2026 + **2027** (feriados GB 2026 + nacionais 2027 + férias do time + eventos nov/2026)
 - Planilha modelo documentada em `planilha-modelo/`
-- Seed de referência em `data/feriados-eventos-seed.json`
+- Seeds em `data/`
 
 Ainda **não** implementados: sync Businessmap, cadastro detalhado de ausências/férias, lista real de iniciativas/ajuda (stubs de navegação).
 

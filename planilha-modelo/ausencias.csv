@@ -1,1 +1,9 @@
 id,pessoaId,tipo,dataInicio,dataFim,status,observacao
+a-001,p-00057600,ferias,2027-02-11,2027-02-19,Aguardando Aprovação Gestor,1ª Programação
+a-002,p-00057600,ferias,2027-09-08,2027-09-28,Aguardando Aprovação Gestor,2ª Programação
+a-003,p-00053049,ferias,2026-05-04,2026-05-08,Efetivada,1ª Programação
+a-004,p-00042229,ferias,2027-01-04,2027-01-18,Aprovada,1ª Programação
+a-005,p-00030106,ferias,2026-05-18,2026-06-03,Efetivada,1ª Programação
+a-006,p-00030106,ferias,2027-01-04,2027-01-16,Aprovada,2ª Programação
+a-007,p-00021761,ferias,2026-06-10,2026-06-23,Efetivada,1ª Programação
+a-008,p-00021761,ferias,2026-10-05,2026-10-10,Efetivada,2ª Programação

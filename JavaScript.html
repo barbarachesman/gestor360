@@ -5,11 +5,17 @@
       'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'
     ];
 
+    var DIAS_SEMANA = [
+      'domingo', 'segunda-feira', 'terça-feira', 'quarta-feira',
+      'quinta-feira', 'sexta-feira', 'sábado'
+    ];
+
     var state = {
       year: 2026,
-      month: 10, // novembro (0-index) — mês com eventos de canal no seed
+      month: 10,
       selected: null,
-      seed: null
+      seed: null,
+      ferias: null
     };
 
     function parseYmd(ymd) {
@@ -22,6 +28,12 @@
       var m = String(date.getMonth() + 1).padStart(2, '0');
       var d = String(date.getDate()).padStart(2, '0');
       return y + '-' + m + '-' + d;
+    }
+
+    function formatBr(ymd) {
+      if (!ymd) return '—';
+      var p = ymd.split('-');
+      return p[2] + '/' + p[1] + '/' + p[0];
     }
 
     function eachDateInRange(startYmd, endYmd) {
@@ -44,8 +56,7 @@
       }
 
       (seed.feriados || []).forEach(function (f) {
-        var dates = eachDateInRange(f.date, f.endDate || f.date);
-        dates.forEach(function (d) {
+        eachDateInRange(f.date, f.endDate || f.date).forEach(function (d) {
           add(d, {
             name: f.name,
             tipo: f.tipo || 'nacional',
@@ -55,12 +66,22 @@
       });
 
       (seed.eventos || []).forEach(function (e) {
-        var dates = eachDateInRange(e.start, e.end || e.start);
-        dates.forEach(function (d) {
+        eachDateInRange(e.start, e.end || e.start).forEach(function (d) {
           add(d, {
             name: e.name,
             tipo: e.tipo || 'evento',
             origem: 'evento'
+          });
+        });
+      });
+
+      (seed.ausencias || []).forEach(function (a) {
+        if (!a.inicio || !a.termino) return;
+        eachDateInRange(a.inicio, a.termino).forEach(function (d) {
+          add(d, {
+            name: 'Férias · ' + a.nome + (a.statusProgramacao ? ' (' + a.statusProgramacao + ')' : ''),
+            tipo: 'ferias',
+            origem: 'ferias'
           });
         });
       });
@@ -81,6 +102,25 @@
       return out;
     }
 
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function statusClass(label) {
+      var s = String(label || '').toLowerCase();
+      if (s.indexOf('efetiv') >= 0) return 'efetivada';
+      if (s.indexOf('aprovad') >= 0) return 'aprovada';
+      if (s.indexOf('aguard') >= 0) return 'aguardando';
+      if (s.indexOf('programar') >= 0) return 'programar';
+      if (s.indexOf('completo') >= 0) return 'completo';
+      if (s.indexOf('incompleto') >= 0) return 'incompleto';
+      return 'programar';
+    }
+
     function setView(viewId) {
       var views = ['ferias', 'calendario', 'iniciativas', 'ajuda', 'cultura'];
       views.forEach(function (id) {
@@ -91,6 +131,13 @@
         var active = btn.getAttribute('data-view') === viewId;
         btn.classList.toggle('is-active', active);
         btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+    }
+
+    function syncYearButtons() {
+      document.querySelectorAll('.year-btn').forEach(function (btn) {
+        var y = Number(btn.getAttribute('data-year'));
+        btn.classList.toggle('is-active', y === state.year);
       });
     }
 
@@ -105,7 +152,7 @@
       }).sort();
 
       if (!keys.length) {
-        list.innerHTML = '<li class="muted">Nenhum feriado ou evento neste mês.</li>';
+        list.innerHTML = '<li class="muted">Nenhum feriado, evento ou férias neste mês.</li>';
         return;
       }
 
@@ -125,14 +172,6 @@
       });
     }
 
-    function escapeHtml(str) {
-      return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
-    }
-
     function showDetail(ymd, items) {
       var title = document.getElementById('detail-title');
       var list = document.getElementById('detail-list');
@@ -142,7 +181,7 @@
       list.innerHTML = '';
 
       if (!items || !items.length) {
-        list.innerHTML = '<li class="muted">Sem feriados ou eventos neste dia.</li>';
+        list.innerHTML = '<li class="muted">Sem feriados, eventos ou férias neste dia.</li>';
         return;
       }
 
@@ -160,6 +199,7 @@
       var grid = document.getElementById('calendar-grid');
       var label = document.getElementById('month-label');
       label.textContent = MESES[state.month] + ' ' + state.year;
+      syncYearButtons();
 
       var first = new Date(state.year, state.month, 1);
       var startPad = first.getDay();
@@ -234,16 +274,77 @@
       }
     }
 
-    var DIAS_SEMANA = [
-      'domingo', 'segunda-feira', 'terça-feira', 'quarta-feira',
-      'quinta-feira', 'sexta-feira', 'sábado'
-    ];
+    function renderFerias() {
+      var root = document.getElementById('ferias-list');
+      if (!root) return;
+      var pessoas = (state.ferias && state.ferias.pessoas) || [];
+      root.innerHTML = '';
+
+      if (!pessoas.length) {
+        root.innerHTML = '<div class="panel"><p class="muted">Nenhuma férias carregada.</p></div>';
+        return;
+      }
+
+      pessoas.forEach(function (p) {
+        var card = document.createElement('article');
+        card.className = 'ferias-card';
+
+        var head =
+          '<div class="ferias-card-head">' +
+          '<h3>' + escapeHtml(p.nome) + '</h3>' +
+          '<span class="ferias-mat">Matrícula ' + escapeHtml(p.matricula) + '</span>' +
+          '</div>';
+
+        var body = '';
+        (p.periodos || []).forEach(function (per) {
+          body +=
+            '<div class="periodo-block">' +
+            '<div class="periodo-meta">' +
+            '<span class="status-pill ' + statusClass(per.status) + '">' +
+            escapeHtml(per.status || '—') +
+            '</span>' +
+            '<span>Saldo: <strong>' + escapeHtml(per.saldo || '—') + '</strong></span>' +
+            '<span>Aquisitivo: ' +
+            formatBr(per.aquisitivoInicio) +
+            ' – ' +
+            formatBr(per.aquisitivoFim) +
+            '</span>' +
+            '<span>Limite saída: ' + formatBr(per.limiteSaida) + '</span>' +
+            '</div>';
+
+          body +=
+            '<table class="prog-table"><thead><tr>' +
+            '<th>Programação</th><th>Início</th><th>Término</th><th>Dias</th><th>Status</th>' +
+            '</tr></thead><tbody>';
+
+          (per.programacoes || []).forEach(function (prog) {
+            body +=
+              '<tr>' +
+              '<td>' + escapeHtml(prog.ordem || '—') + '</td>' +
+              '<td>' + formatBr(prog.inicio) + '</td>' +
+              '<td>' + formatBr(prog.termino) + '</td>' +
+              '<td>' + escapeHtml(String(prog.dias != null ? prog.dias : '—')) + '</td>' +
+              '<td><span class="status-pill ' +
+              statusClass(prog.statusProgramacao) +
+              '">' +
+              escapeHtml(prog.statusProgramacao || '—') +
+              '</span></td>' +
+              '</tr>';
+          });
+
+          body += '</tbody></table></div>';
+        });
+
+        card.innerHTML = head + body;
+        root.appendChild(card);
+      });
+    }
 
     function setGreetingDate() {
       var el = document.getElementById('greeting-date');
       if (!el) return;
       var now = new Date();
-      var label =
+      el.textContent =
         DIAS_SEMANA[now.getDay()] +
         ', ' +
         now.getDate() +
@@ -251,7 +352,6 @@
         MESES[now.getMonth()] +
         ' de ' +
         now.getFullYear();
-      el.textContent = label;
     }
 
     function bindNav() {
@@ -278,26 +378,71 @@
         }
         renderCalendar();
       });
+
+      document.querySelectorAll('.year-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          state.year = Number(btn.getAttribute('data-year'));
+          renderCalendar();
+        });
+      });
     }
 
-    function boot(seed) {
-      state.seed = seed || { feriados: [], eventos: [] };
+    function boot(seed, ferias) {
+      state.seed = seed || { feriados: [], eventos: [], ausencias: [] };
+      if (!state.seed.ausencias && ferias && ferias.ausencias) {
+        state.seed.ausencias = ferias.ausencias;
+      }
+      state.ferias = ferias || { pessoas: [], ausencias: state.seed.ausencias || [] };
       setGreetingDate();
       bindNav();
+      renderFerias();
       setView('calendario');
       renderCalendar();
     }
 
-    // Apps Script: busca seed no servidor. Fallback local se abrir HTML fora do GAS.
+    function bootFromFallback() {
+      var fb = window.__GESTOR360_FALLBACK_SEED__ || {};
+      boot(
+        {
+          anos: fb.anos || [2026, 2027],
+          feriados: fb.feriados || [],
+          eventos: fb.eventos || [],
+          ausencias: fb.ausencias || []
+        },
+        fb.ferias || { pessoas: fb.pessoas || [], ausencias: fb.ausencias || [] }
+      );
+    }
+
     if (typeof google !== 'undefined' && google.script && google.script.run) {
+      var calSeed = null;
+      var feriasSeed = null;
+      var pending = 2;
+
+      function maybeBoot() {
+        pending -= 1;
+        if (pending === 0) boot(calSeed, feriasSeed);
+      }
+
       google.script.run
-        .withSuccessHandler(boot)
-        .withFailureHandler(function () {
-          boot(window.__GESTOR360_FALLBACK_SEED__ || null);
+        .withSuccessHandler(function (data) {
+          calSeed = data;
+          maybeBoot();
         })
+        .withFailureHandler(bootFromFallback)
         .getCalendarioSeed();
+
+      google.script.run
+        .withSuccessHandler(function (data) {
+          feriasSeed = data;
+          maybeBoot();
+        })
+        .withFailureHandler(function () {
+          feriasSeed = { pessoas: [], ausencias: [] };
+          maybeBoot();
+        })
+        .getFerias();
     } else {
-      boot(window.__GESTOR360_FALLBACK_SEED__ || null);
+      bootFromFallback();
     }
   })();
 </script>

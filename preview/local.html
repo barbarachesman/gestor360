@@ -400,6 +400,138 @@
   .dot.recesso { background: var(--recesso); }
   .dot.evento { background: var(--evento); }
   .dot.aviso { background: var(--aviso); }
+  .dot.ferias { background: #0f766e; }
+
+  .mark.ferias { background: #0f766e; }
+
+  .year-switch {
+    display: flex;
+    gap: 0.35rem;
+    margin-top: 0.65rem;
+  }
+
+  .year-btn {
+    border: 1px solid var(--borda);
+    background: var(--branco);
+    color: var(--navy);
+    font: inherit;
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+
+  .year-btn.is-active {
+    background: var(--azul);
+    border-color: var(--azul);
+    color: #fff;
+  }
+
+  .ferias-list {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .ferias-card {
+    background: var(--branco);
+    border: 1px solid var(--borda);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    padding: 1.1rem 1.2rem 1.2rem;
+  }
+
+  .ferias-card-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .ferias-card-head h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--navy);
+  }
+
+  .ferias-mat {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--texto);
+  }
+
+  .periodo-block {
+    border-top: 1px solid var(--borda);
+    padding-top: 0.75rem;
+    margin-top: 0.75rem;
+  }
+
+  .periodo-block:first-of-type {
+    border-top: 0;
+    padding-top: 0;
+    margin-top: 0;
+  }
+
+  .periodo-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem 0.75rem;
+    margin-bottom: 0.55rem;
+    font-size: 0.88rem;
+    color: var(--texto);
+  }
+
+  .status-pill {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 0.2rem 0.55rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .status-pill.completo,
+  .status-pill.efetivada,
+  .status-pill.aprovada {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  .status-pill.incompleto,
+  .status-pill.aguardando {
+    background: #ffedd5;
+    color: #9a3412;
+  }
+
+  .status-pill.programar {
+    background: var(--pill);
+    color: var(--azul);
+  }
+
+  .prog-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+
+  .prog-table th,
+  .prog-table td {
+    text-align: left;
+    padding: 0.4rem 0.35rem;
+    border-bottom: 1px solid var(--borda);
+    vertical-align: top;
+    color: var(--texto);
+  }
+
+  .prog-table th {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--azul);
+  }
 
   .detail-list li,
   .month-events li {
@@ -571,20 +703,21 @@
         <section id="view-ferias" class="view" hidden>
           <header class="view-header">
             <span class="badge">Férias</span>
-            <h2>Quem está ou vai estar de férias</h2>
-            <p>Cadastro manual / planilha na próxima fatia.</p>
+            <h2>Status das férias do time</h2>
+            <p>Saldos, períodos e programações a partir da planilha de subordinados.</p>
           </header>
-          <div class="panel">
-            <p>Stub — ausências ainda não carregadas.</p>
-            <p class="muted">Use a visão <strong>Calendário</strong> para feriados e eventos de 2026.</p>
-          </div>
+          <div id="ferias-list" class="ferias-list"></div>
         </section>
 
         <section id="view-calendario" class="view">
           <header class="view-header view-header-cal">
             <div>
               <span class="badge">Calendário</span>
-              <h2>Feriados GB 2026, pontes e eventos de canal</h2>
+              <h2>Feriados, férias do time e eventos de canal</h2>
+              <div class="year-switch" role="group" aria-label="Ano do calendário">
+                <button type="button" class="year-btn is-active" data-year="2026">2026</button>
+                <button type="button" class="year-btn" data-year="2027">2027</button>
+              </div>
             </div>
             <div class="month-nav">
               <button type="button" id="btn-prev-month" class="icon-btn" aria-label="Mês anterior">
@@ -615,6 +748,7 @@
                   <li><span class="dot recesso"></span> Recesso</li>
                   <li><span class="dot evento"></span> Evento empresa</li>
                   <li><span class="dot aviso"></span> Aviso</li>
+                  <li><span class="dot ferias"></span> Férias do time</li>
                 </ul>
               </div>
               <div class="day-detail">
@@ -687,7 +821,7 @@
         <span>Times: Interfaces Conversacionais · Experiências</span>
       </footer>
     </div>
-<script>window.__GESTOR360_FALLBACK_SEED__ = {"ano": 2026, "times": [{"id": "interfaces-conversacionais", "nome": "Interfaces Conversacionais"}, {"id": "experiencias", "nome": "Experiências"}], "feriados": [{"date": "2026-01-01", "name": "Confraternização Universal", "tipo": "nacional"}, {"date": "2026-01-02", "name": "Ponte Confraternização Universal", "tipo": "ponte"}, {"date": "2026-02-16", "name": "Segunda-feira de Carnaval", "tipo": "nacional"}, {"date": "2026-02-17", "name": "Terça-feira de Carnaval", "tipo": "nacional"}, {"date": "2026-02-18", "name": "Quarta-feira de cinzas (meio período após 12h)", "tipo": "nacional"}, {"date": "2026-04-03", "name": "Sexta-feira da Paixão", "tipo": "nacional"}, {"date": "2026-04-20", "name": "Ponte Tiradentes", "tipo": "ponte"}, {"date": "2026-04-21", "name": "Tiradentes", "tipo": "nacional"}, {"date": "2026-05-01", "name": "Dia do Trabalhador", "tipo": "nacional"}, {"date": "2026-06-04", "name": "Corpus Christi", "tipo": "nacional"}, {"date": "2026-06-05", "name": "Ponte de Corpus Christi", "tipo": "ponte"}, {"date": "2026-09-07", "name": "Independência do Brasil", "tipo": "nacional"}, {"date": "2026-10-12", "name": "Nossa Senhora Aparecida", "tipo": "nacional"}, {"date": "2026-11-02", "name": "Finados", "tipo": "nacional"}, {"date": "2026-11-15", "name": "Proclamação da República", "tipo": "nacional"}, {"date": "2026-11-20", "name": "Dia Nacional de Zumbi e da Consciência Negra", "tipo": "nacional"}, {"date": "2026-12-25", "name": "Natal", "tipo": "nacional"}, {"date": "2026-12-26", "name": "Início recesso de final de ano (híbrido/remoto)", "tipo": "recesso", "endDate": "2026-12-31"}], "eventos": [{"start": "2026-11-02", "end": "2026-11-02", "name": "Feriado de Finados", "tipo": "feriado"}, {"start": "2026-11-03", "end": "2026-11-06", "name": "Semana de Cultura Antifraude", "tipo": "evento"}, {"start": "2026-11-06", "end": "2026-11-06", "name": "Talentos IA - Vencedores da Janela II", "tipo": "evento"}, {"start": "2026-11-10", "end": "2026-11-10", "name": "IA Labs - Live Workspace Studio", "tipo": "evento"}, {"start": "2026-11-12", "end": "2026-11-12", "name": "CEO Talks (diretores)", "tipo": "evento"}, {"start": "2026-11-20", "end": "2026-11-20", "name": "Feriado do Dia da Consciência Negra", "tipo": "feriado"}, {"start": "2026-11-23", "end": "2026-11-27", "name": "Semana de Beauty Week", "tipo": "evento"}, {"start": "2026-11-30", "end": "2026-11-30", "name": "Fim da isenção de coparticipação para exames preventivos", "tipo": "aviso"}]};</script>
+<script>window.__GESTOR360_FALLBACK_SEED__ = {"anos": [2026, 2027], "feriados": [{"date": "2026-01-01", "name": "Confraternização Universal", "tipo": "nacional"}, {"date": "2026-01-02", "name": "Ponte Confraternização Universal", "tipo": "ponte"}, {"date": "2026-02-16", "name": "Segunda-feira de Carnaval", "tipo": "nacional"}, {"date": "2026-02-17", "name": "Terça-feira de Carnaval", "tipo": "nacional"}, {"date": "2026-02-18", "name": "Quarta-feira de cinzas (meio período após 12h)", "tipo": "nacional"}, {"date": "2026-04-03", "name": "Sexta-feira da Paixão", "tipo": "nacional"}, {"date": "2026-04-20", "name": "Ponte Tiradentes", "tipo": "ponte"}, {"date": "2026-04-21", "name": "Tiradentes", "tipo": "nacional"}, {"date": "2026-05-01", "name": "Dia do Trabalhador", "tipo": "nacional"}, {"date": "2026-06-04", "name": "Corpus Christi", "tipo": "nacional"}, {"date": "2026-06-05", "name": "Ponte de Corpus Christi", "tipo": "ponte"}, {"date": "2026-09-07", "name": "Independência do Brasil", "tipo": "nacional"}, {"date": "2026-10-12", "name": "Nossa Senhora Aparecida", "tipo": "nacional"}, {"date": "2026-11-02", "name": "Finados", "tipo": "nacional"}, {"date": "2026-11-15", "name": "Proclamação da República", "tipo": "nacional"}, {"date": "2026-11-20", "name": "Dia Nacional de Zumbi e da Consciência Negra", "tipo": "nacional"}, {"date": "2026-12-25", "name": "Natal", "tipo": "nacional"}, {"date": "2026-12-26", "name": "Início recesso de final de ano (híbrido/remoto)", "tipo": "recesso", "endDate": "2026-12-31"}, {"date": "2027-01-01", "name": "Confraternização Universal", "tipo": "nacional"}, {"date": "2027-02-08", "name": "Segunda-feira de Carnaval", "tipo": "nacional"}, {"date": "2027-02-09", "name": "Terça-feira de Carnaval", "tipo": "nacional"}, {"date": "2027-02-10", "name": "Quarta-feira de cinzas (meio período após 12h)", "tipo": "nacional"}, {"date": "2027-03-26", "name": "Sexta-feira da Paixão", "tipo": "nacional"}, {"date": "2027-04-21", "name": "Tiradentes", "tipo": "nacional"}, {"date": "2027-05-01", "name": "Dia do Trabalhador", "tipo": "nacional"}, {"date": "2027-05-27", "name": "Corpus Christi", "tipo": "nacional"}, {"date": "2027-09-07", "name": "Independência do Brasil", "tipo": "nacional"}, {"date": "2027-10-12", "name": "Nossa Senhora Aparecida", "tipo": "nacional"}, {"date": "2027-11-02", "name": "Finados", "tipo": "nacional"}, {"date": "2027-11-15", "name": "Proclamação da República", "tipo": "nacional"}, {"date": "2027-11-20", "name": "Dia Nacional de Zumbi e da Consciência Negra", "tipo": "nacional"}, {"date": "2027-12-25", "name": "Natal", "tipo": "nacional"}], "eventos": [{"start": "2026-11-02", "end": "2026-11-02", "name": "Feriado de Finados", "tipo": "feriado"}, {"start": "2026-11-03", "end": "2026-11-06", "name": "Semana de Cultura Antifraude", "tipo": "evento"}, {"start": "2026-11-06", "end": "2026-11-06", "name": "Talentos IA - Vencedores da Janela II", "tipo": "evento"}, {"start": "2026-11-10", "end": "2026-11-10", "name": "IA Labs - Live Workspace Studio", "tipo": "evento"}, {"start": "2026-11-12", "end": "2026-11-12", "name": "CEO Talks (diretores)", "tipo": "evento"}, {"start": "2026-11-20", "end": "2026-11-20", "name": "Feriado do Dia da Consciência Negra", "tipo": "feriado"}, {"start": "2026-11-23", "end": "2026-11-27", "name": "Semana de Beauty Week", "tipo": "evento"}, {"start": "2026-11-30", "end": "2026-11-30", "name": "Fim da isenção de coparticipação para exames preventivos", "tipo": "aviso"}], "ausencias": [{"matricula": "00057600", "nome": "Allison Oliveira", "inicio": "2027-02-11", "termino": "2027-02-19", "dias": 9, "ordem": "1ª Programação", "statusProgramacao": "Aguardando Aprovação Gestor", "tipo": "ferias"}, {"matricula": "00057600", "nome": "Allison Oliveira", "inicio": "2027-09-08", "termino": "2027-09-28", "dias": 21, "ordem": "2ª Programação", "statusProgramacao": "Aguardando Aprovação Gestor", "tipo": "ferias"}, {"matricula": "00053049", "nome": "Harrison Henri Dos Santos Nasc", "inicio": "2026-05-04", "termino": "2026-05-08", "dias": 5, "ordem": "1ª Programação", "statusProgramacao": "Efetivada", "tipo": "ferias"}, {"matricula": "00042229", "nome": "Mayara Vieira Marins", "inicio": "2027-01-04", "termino": "2027-01-18", "dias": 15, "ordem": "1ª Programação", "statusProgramacao": "Aprovada", "tipo": "ferias"}, {"matricula": "00030106", "nome": "Rodrigo Silva de Borba", "inicio": "2026-05-18", "termino": "2026-06-03", "dias": 17, "ordem": "1ª Programação", "statusProgramacao": "Efetivada", "tipo": "ferias"}, {"matricula": "00030106", "nome": "Rodrigo Silva de Borba", "inicio": "2027-01-04", "termino": "2027-01-16", "dias": 13, "ordem": "2ª Programação", "statusProgramacao": "Aprovada", "tipo": "ferias"}, {"matricula": "00021761", "nome": "Welington Cruz De Assis", "inicio": "2026-06-10", "termino": "2026-06-23", "dias": 14, "ordem": "1ª Programação", "statusProgramacao": "Efetivada", "tipo": "ferias"}, {"matricula": "00021761", "nome": "Welington Cruz De Assis", "inicio": "2026-10-05", "termino": "2026-10-10", "dias": 6, "ordem": "2ª Programação", "statusProgramacao": "Efetivada", "tipo": "ferias"}], "ferias": {"fonte": "Férias Subordinados.xlsx", "pessoas": [{"matricula": "00057600", "nome": "Allison Oliveira", "periodos": [{"aquisitivoInicio": "2026-01-05", "aquisitivoFim": "2027-01-04", "concessivoInicio": "2027-01-05", "concessivoFim": "2028-01-04", "saldo": "5.00-", "status": "Incompleto", "faltas": "0", "limiteSaida": "2027-12-06", "programacoes": [{"ordem": "1ª Programação", "inicio": "2027-02-11", "termino": "2027-02-19", "dias": 9, "abono": "Não", "adiantamento13": "Sim", "statusProgramacao": "Aguardando Aprovação Gestor"}, {"ordem": "2ª Programação", "inicio": "2027-09-08", "termino": "2027-09-28", "dias": 21, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "Aguardando Aprovação Gestor"}, {"ordem": "3ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}]}]}, {"matricula": "00018082", "nome": "Estevan Baqueta De Castro", "periodos": [{"aquisitivoInicio": "2025-04-05", "aquisitivoFim": "2026-04-04", "concessivoInicio": "2026-04-05", "concessivoFim": "2027-04-04", "saldo": "30.00", "status": "Completo", "faltas": "0", "limiteSaida": "2027-03-06", "programacoes": [{"ordem": "1ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "2ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "3ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}]}, {"aquisitivoInicio": "2026-04-05", "aquisitivoFim": "2027-04-04", "concessivoInicio": "2027-04-05", "concessivoFim": "2028-04-04", "saldo": "17.50", "status": "Incompleto", "faltas": "0", "limiteSaida": "2028-03-06", "programacoes": [{"ordem": "1ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "2ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "3ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}]}]}, {"matricula": "00053049", "nome": "Harrison Henri Dos Santos Nasc", "periodos": [{"aquisitivoInicio": "2025-04-07", "aquisitivoFim": "2026-04-06", "concessivoInicio": "2026-04-07", "concessivoFim": "2027-04-06", "saldo": "15.00", "status": "Completo", "faltas": "0", "limiteSaida": "2027-03-23", "programacoes": [{"ordem": "1ª Programação", "inicio": "2026-05-04", "termino": "2026-05-08", "dias": 5, "abono": "Sim", "adiantamento13": "Não", "statusProgramacao": "Efetivada"}, {"ordem": "2ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "3ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}]}, {"aquisitivoInicio": "2026-04-07", "aquisitivoFim": "2027-04-06", "concessivoInicio": "2027-04-07", "concessivoFim": "2028-04-06", "saldo": "17.50", "status": "Incompleto", "faltas": "0", "limiteSaida": "2028-03-08", "programacoes": [{"ordem": "1ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "2ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "3ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}]}]}, {"matricula": "00042284", "nome": "Katia Cibele Ribeiro Da Cunha", "periodos": [{"aquisitivoInicio": "2025-09-11", "aquisitivoFim": "2026-09-10", "concessivoInicio": "2026-09-11", "concessivoFim": "2027-09-10", "saldo": "30.00", "status": "Completo", "faltas": "0", "limiteSaida": "2027-08-12", "programacoes": [{"ordem": "1ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "2ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "3ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}]}, {"aquisitivoInicio": "2026-09-11", "aquisitivoFim": "2027-09-10", "concessivoInicio": "2027-09-11", "concessivoFim": "2028-09-10", "saldo": "5.00", "status": "Incompleto", "faltas": "0", "limiteSaida": "2028-08-12", "programacoes": [{"ordem": "1ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "2ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "3ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}]}]}, {"matricula": "00042229", "nome": "Mayara Vieira Marins", "periodos": [{"aquisitivoInicio": "2025-09-04", "aquisitivoFim": "2026-09-03", "concessivoInicio": "2026-09-04", "concessivoFim": "2027-09-03", "saldo": "15.00", "status": "Completo", "faltas": "0", "limiteSaida": "2027-08-05", "programacoes": [{"ordem": "1ª Programação", "inicio": "2027-01-04", "termino": "2027-01-18", "dias": 15, "abono": "Não", "adiantamento13": "Sim", "statusProgramacao": "Aprovada"}, {"ordem": "2ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "3ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}]}, {"aquisitivoInicio": "2026-09-04", "aquisitivoFim": "2027-09-03", "concessivoInicio": "2027-09-04", "concessivoFim": "2028-09-03", "saldo": "5.00", "status": "Incompleto", "faltas": "0", "limiteSaida": "2028-08-05", "programacoes": [{"ordem": "1ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "2ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "3ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}]}]}, {"matricula": "00030106", "nome": "Rodrigo Silva de Borba", "periodos": [{"aquisitivoInicio": "2025-04-18", "aquisitivoFim": "2026-04-17", "concessivoInicio": "2026-04-18", "concessivoFim": "2027-04-17", "saldo": "0.00", "status": "Completo", "faltas": "0", "limiteSaida": "2027-04-05", "programacoes": [{"ordem": "1ª Programação", "inicio": "2026-05-18", "termino": "2026-06-03", "dias": 17, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "Efetivada"}, {"ordem": "2ª Programação", "inicio": "2027-01-04", "termino": "2027-01-16", "dias": 13, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "Aprovada"}, {"ordem": "3ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}]}, {"aquisitivoInicio": "2026-04-18", "aquisitivoFim": "2027-04-17", "concessivoInicio": "2027-04-18", "concessivoFim": "2028-04-17", "saldo": "17.50", "status": "Incompleto", "faltas": "0", "limiteSaida": "2028-03-19", "programacoes": [{"ordem": "1ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "2ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "3ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}]}]}, {"matricula": "00058944", "nome": "Skarlete Silva Luz", "periodos": [{"aquisitivoInicio": "2026-03-23", "aquisitivoFim": "2027-03-22", "concessivoInicio": "2027-03-23", "concessivoFim": "2028-03-22", "saldo": "17.50", "status": "Incompleto", "faltas": "0", "limiteSaida": "2028-02-22", "programacoes": [{"ordem": "1ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "2ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "3ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}]}]}, {"matricula": "00021761", "nome": "Welington Cruz De Assis", "periodos": [{"aquisitivoInicio": "2025-02-18", "aquisitivoFim": "2026-02-17", "concessivoInicio": "2026-02-18", "concessivoFim": "2027-02-17", "saldo": "0.00", "status": "Completo", "faltas": "0", "limiteSaida": "2027-02-18", "programacoes": [{"ordem": "1ª Programação", "inicio": "2026-06-10", "termino": "2026-06-23", "dias": 14, "abono": "Sim", "adiantamento13": "Não", "statusProgramacao": "Efetivada"}, {"ordem": "2ª Programação", "inicio": "2026-10-05", "termino": "2026-10-10", "dias": 6, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "Efetivada"}, {"ordem": "3ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}]}, {"aquisitivoInicio": "2026-02-18", "aquisitivoFim": "2027-02-17", "concessivoInicio": "2027-02-18", "concessivoFim": "2028-02-17", "saldo": "22.50", "status": "Incompleto", "faltas": "0", "limiteSaida": "2028-01-19", "programacoes": [{"ordem": "1ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "2ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "3ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}]}]}], "ausencias": [{"matricula": "00057600", "nome": "Allison Oliveira", "inicio": "2027-02-11", "termino": "2027-02-19", "dias": 9, "ordem": "1ª Programação", "statusProgramacao": "Aguardando Aprovação Gestor", "tipo": "ferias"}, {"matricula": "00057600", "nome": "Allison Oliveira", "inicio": "2027-09-08", "termino": "2027-09-28", "dias": 21, "ordem": "2ª Programação", "statusProgramacao": "Aguardando Aprovação Gestor", "tipo": "ferias"}, {"matricula": "00053049", "nome": "Harrison Henri Dos Santos Nasc", "inicio": "2026-05-04", "termino": "2026-05-08", "dias": 5, "ordem": "1ª Programação", "statusProgramacao": "Efetivada", "tipo": "ferias"}, {"matricula": "00042229", "nome": "Mayara Vieira Marins", "inicio": "2027-01-04", "termino": "2027-01-18", "dias": 15, "ordem": "1ª Programação", "statusProgramacao": "Aprovada", "tipo": "ferias"}, {"matricula": "00030106", "nome": "Rodrigo Silva de Borba", "inicio": "2026-05-18", "termino": "2026-06-03", "dias": 17, "ordem": "1ª Programação", "statusProgramacao": "Efetivada", "tipo": "ferias"}, {"matricula": "00030106", "nome": "Rodrigo Silva de Borba", "inicio": "2027-01-04", "termino": "2027-01-16", "dias": 13, "ordem": "2ª Programação", "statusProgramacao": "Aprovada", "tipo": "ferias"}, {"matricula": "00021761", "nome": "Welington Cruz De Assis", "inicio": "2026-06-10", "termino": "2026-06-23", "dias": 14, "ordem": "1ª Programação", "statusProgramacao": "Efetivada", "tipo": "ferias"}, {"matricula": "00021761", "nome": "Welington Cruz De Assis", "inicio": "2026-10-05", "termino": "2026-10-10", "dias": 6, "ordem": "2ª Programação", "statusProgramacao": "Efetivada", "tipo": "ferias"}], "feriados2027": [{"date": "2027-01-01", "name": "Confraternização Universal", "tipo": "nacional"}, {"date": "2027-02-08", "name": "Segunda-feira de Carnaval", "tipo": "nacional"}, {"date": "2027-02-09", "name": "Terça-feira de Carnaval", "tipo": "nacional"}, {"date": "2027-02-10", "name": "Quarta-feira de cinzas (meio período após 12h)", "tipo": "nacional"}, {"date": "2027-03-26", "name": "Sexta-feira da Paixão", "tipo": "nacional"}, {"date": "2027-04-21", "name": "Tiradentes", "tipo": "nacional"}, {"date": "2027-05-01", "name": "Dia do Trabalhador", "tipo": "nacional"}, {"date": "2027-05-27", "name": "Corpus Christi", "tipo": "nacional"}, {"date": "2027-09-07", "name": "Independência do Brasil", "tipo": "nacional"}, {"date": "2027-10-12", "name": "Nossa Senhora Aparecida", "tipo": "nacional"}, {"date": "2027-11-02", "name": "Finados", "tipo": "nacional"}, {"date": "2027-11-15", "name": "Proclamação da República", "tipo": "nacional"}, {"date": "2027-11-20", "name": "Dia Nacional de Zumbi e da Consciência Negra", "tipo": "nacional"}, {"date": "2027-12-25", "name": "Natal", "tipo": "nacional"}]}, "pessoas": [{"matricula": "00057600", "nome": "Allison Oliveira", "periodos": [{"aquisitivoInicio": "2026-01-05", "aquisitivoFim": "2027-01-04", "concessivoInicio": "2027-01-05", "concessivoFim": "2028-01-04", "saldo": "5.00-", "status": "Incompleto", "faltas": "0", "limiteSaida": "2027-12-06", "programacoes": [{"ordem": "1ª Programação", "inicio": "2027-02-11", "termino": "2027-02-19", "dias": 9, "abono": "Não", "adiantamento13": "Sim", "statusProgramacao": "Aguardando Aprovação Gestor"}, {"ordem": "2ª Programação", "inicio": "2027-09-08", "termino": "2027-09-28", "dias": 21, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "Aguardando Aprovação Gestor"}, {"ordem": "3ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}]}]}, {"matricula": "00018082", "nome": "Estevan Baqueta De Castro", "periodos": [{"aquisitivoInicio": "2025-04-05", "aquisitivoFim": "2026-04-04", "concessivoInicio": "2026-04-05", "concessivoFim": "2027-04-04", "saldo": "30.00", "status": "Completo", "faltas": "0", "limiteSaida": "2027-03-06", "programacoes": [{"ordem": "1ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "2ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "3ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}]}, {"aquisitivoInicio": "2026-04-05", "aquisitivoFim": "2027-04-04", "concessivoInicio": "2027-04-05", "concessivoFim": "2028-04-04", "saldo": "17.50", "status": "Incompleto", "faltas": "0", "limiteSaida": "2028-03-06", "programacoes": [{"ordem": "1ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "2ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "3ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}]}]}, {"matricula": "00053049", "nome": "Harrison Henri Dos Santos Nasc", "periodos": [{"aquisitivoInicio": "2025-04-07", "aquisitivoFim": "2026-04-06", "concessivoInicio": "2026-04-07", "concessivoFim": "2027-04-06", "saldo": "15.00", "status": "Completo", "faltas": "0", "limiteSaida": "2027-03-23", "programacoes": [{"ordem": "1ª Programação", "inicio": "2026-05-04", "termino": "2026-05-08", "dias": 5, "abono": "Sim", "adiantamento13": "Não", "statusProgramacao": "Efetivada"}, {"ordem": "2ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "3ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}]}, {"aquisitivoInicio": "2026-04-07", "aquisitivoFim": "2027-04-06", "concessivoInicio": "2027-04-07", "concessivoFim": "2028-04-06", "saldo": "17.50", "status": "Incompleto", "faltas": "0", "limiteSaida": "2028-03-08", "programacoes": [{"ordem": "1ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "2ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "3ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}]}]}, {"matricula": "00042284", "nome": "Katia Cibele Ribeiro Da Cunha", "periodos": [{"aquisitivoInicio": "2025-09-11", "aquisitivoFim": "2026-09-10", "concessivoInicio": "2026-09-11", "concessivoFim": "2027-09-10", "saldo": "30.00", "status": "Completo", "faltas": "0", "limiteSaida": "2027-08-12", "programacoes": [{"ordem": "1ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "2ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "3ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}]}, {"aquisitivoInicio": "2026-09-11", "aquisitivoFim": "2027-09-10", "concessivoInicio": "2027-09-11", "concessivoFim": "2028-09-10", "saldo": "5.00", "status": "Incompleto", "faltas": "0", "limiteSaida": "2028-08-12", "programacoes": [{"ordem": "1ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "2ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "3ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}]}]}, {"matricula": "00042229", "nome": "Mayara Vieira Marins", "periodos": [{"aquisitivoInicio": "2025-09-04", "aquisitivoFim": "2026-09-03", "concessivoInicio": "2026-09-04", "concessivoFim": "2027-09-03", "saldo": "15.00", "status": "Completo", "faltas": "0", "limiteSaida": "2027-08-05", "programacoes": [{"ordem": "1ª Programação", "inicio": "2027-01-04", "termino": "2027-01-18", "dias": 15, "abono": "Não", "adiantamento13": "Sim", "statusProgramacao": "Aprovada"}, {"ordem": "2ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "3ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}]}, {"aquisitivoInicio": "2026-09-04", "aquisitivoFim": "2027-09-03", "concessivoInicio": "2027-09-04", "concessivoFim": "2028-09-03", "saldo": "5.00", "status": "Incompleto", "faltas": "0", "limiteSaida": "2028-08-05", "programacoes": [{"ordem": "1ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "2ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "3ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}]}]}, {"matricula": "00030106", "nome": "Rodrigo Silva de Borba", "periodos": [{"aquisitivoInicio": "2025-04-18", "aquisitivoFim": "2026-04-17", "concessivoInicio": "2026-04-18", "concessivoFim": "2027-04-17", "saldo": "0.00", "status": "Completo", "faltas": "0", "limiteSaida": "2027-04-05", "programacoes": [{"ordem": "1ª Programação", "inicio": "2026-05-18", "termino": "2026-06-03", "dias": 17, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "Efetivada"}, {"ordem": "2ª Programação", "inicio": "2027-01-04", "termino": "2027-01-16", "dias": 13, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "Aprovada"}, {"ordem": "3ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}]}, {"aquisitivoInicio": "2026-04-18", "aquisitivoFim": "2027-04-17", "concessivoInicio": "2027-04-18", "concessivoFim": "2028-04-17", "saldo": "17.50", "status": "Incompleto", "faltas": "0", "limiteSaida": "2028-03-19", "programacoes": [{"ordem": "1ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "2ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "3ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}]}]}, {"matricula": "00058944", "nome": "Skarlete Silva Luz", "periodos": [{"aquisitivoInicio": "2026-03-23", "aquisitivoFim": "2027-03-22", "concessivoInicio": "2027-03-23", "concessivoFim": "2028-03-22", "saldo": "17.50", "status": "Incompleto", "faltas": "0", "limiteSaida": "2028-02-22", "programacoes": [{"ordem": "1ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "2ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "3ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}]}]}, {"matricula": "00021761", "nome": "Welington Cruz De Assis", "periodos": [{"aquisitivoInicio": "2025-02-18", "aquisitivoFim": "2026-02-17", "concessivoInicio": "2026-02-18", "concessivoFim": "2027-02-17", "saldo": "0.00", "status": "Completo", "faltas": "0", "limiteSaida": "2027-02-18", "programacoes": [{"ordem": "1ª Programação", "inicio": "2026-06-10", "termino": "2026-06-23", "dias": 14, "abono": "Sim", "adiantamento13": "Não", "statusProgramacao": "Efetivada"}, {"ordem": "2ª Programação", "inicio": "2026-10-05", "termino": "2026-10-10", "dias": 6, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "Efetivada"}, {"ordem": "3ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}]}, {"aquisitivoInicio": "2026-02-18", "aquisitivoFim": "2027-02-17", "concessivoInicio": "2027-02-18", "concessivoFim": "2028-02-17", "saldo": "22.50", "status": "Incompleto", "faltas": "0", "limiteSaida": "2028-01-19", "programacoes": [{"ordem": "1ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "2ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}, {"ordem": "3ª Programação", "inicio": null, "termino": null, "dias": 0, "abono": "Não", "adiantamento13": "Não", "statusProgramacao": "A Programar"}]}]}]};</script>
 <script>
   (function () {
     var MESES = [
@@ -695,11 +829,17 @@
       'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'
     ];
 
+    var DIAS_SEMANA = [
+      'domingo', 'segunda-feira', 'terça-feira', 'quarta-feira',
+      'quinta-feira', 'sexta-feira', 'sábado'
+    ];
+
     var state = {
       year: 2026,
-      month: 10, // novembro (0-index) — mês com eventos de canal no seed
+      month: 10,
       selected: null,
-      seed: null
+      seed: null,
+      ferias: null
     };
 
     function parseYmd(ymd) {
@@ -712,6 +852,12 @@
       var m = String(date.getMonth() + 1).padStart(2, '0');
       var d = String(date.getDate()).padStart(2, '0');
       return y + '-' + m + '-' + d;
+    }
+
+    function formatBr(ymd) {
+      if (!ymd) return '—';
+      var p = ymd.split('-');
+      return p[2] + '/' + p[1] + '/' + p[0];
     }
 
     function eachDateInRange(startYmd, endYmd) {
@@ -734,8 +880,7 @@
       }
 
       (seed.feriados || []).forEach(function (f) {
-        var dates = eachDateInRange(f.date, f.endDate || f.date);
-        dates.forEach(function (d) {
+        eachDateInRange(f.date, f.endDate || f.date).forEach(function (d) {
           add(d, {
             name: f.name,
             tipo: f.tipo || 'nacional',
@@ -745,12 +890,22 @@
       });
 
       (seed.eventos || []).forEach(function (e) {
-        var dates = eachDateInRange(e.start, e.end || e.start);
-        dates.forEach(function (d) {
+        eachDateInRange(e.start, e.end || e.start).forEach(function (d) {
           add(d, {
             name: e.name,
             tipo: e.tipo || 'evento',
             origem: 'evento'
+          });
+        });
+      });
+
+      (seed.ausencias || []).forEach(function (a) {
+        if (!a.inicio || !a.termino) return;
+        eachDateInRange(a.inicio, a.termino).forEach(function (d) {
+          add(d, {
+            name: 'Férias · ' + a.nome + (a.statusProgramacao ? ' (' + a.statusProgramacao + ')' : ''),
+            tipo: 'ferias',
+            origem: 'ferias'
           });
         });
       });
@@ -771,6 +926,25 @@
       return out;
     }
 
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function statusClass(label) {
+      var s = String(label || '').toLowerCase();
+      if (s.indexOf('efetiv') >= 0) return 'efetivada';
+      if (s.indexOf('aprovad') >= 0) return 'aprovada';
+      if (s.indexOf('aguard') >= 0) return 'aguardando';
+      if (s.indexOf('programar') >= 0) return 'programar';
+      if (s.indexOf('completo') >= 0) return 'completo';
+      if (s.indexOf('incompleto') >= 0) return 'incompleto';
+      return 'programar';
+    }
+
     function setView(viewId) {
       var views = ['ferias', 'calendario', 'iniciativas', 'ajuda', 'cultura'];
       views.forEach(function (id) {
@@ -781,6 +955,13 @@
         var active = btn.getAttribute('data-view') === viewId;
         btn.classList.toggle('is-active', active);
         btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+    }
+
+    function syncYearButtons() {
+      document.querySelectorAll('.year-btn').forEach(function (btn) {
+        var y = Number(btn.getAttribute('data-year'));
+        btn.classList.toggle('is-active', y === state.year);
       });
     }
 
@@ -795,7 +976,7 @@
       }).sort();
 
       if (!keys.length) {
-        list.innerHTML = '<li class="muted">Nenhum feriado ou evento neste mês.</li>';
+        list.innerHTML = '<li class="muted">Nenhum feriado, evento ou férias neste mês.</li>';
         return;
       }
 
@@ -815,14 +996,6 @@
       });
     }
 
-    function escapeHtml(str) {
-      return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
-    }
-
     function showDetail(ymd, items) {
       var title = document.getElementById('detail-title');
       var list = document.getElementById('detail-list');
@@ -832,7 +1005,7 @@
       list.innerHTML = '';
 
       if (!items || !items.length) {
-        list.innerHTML = '<li class="muted">Sem feriados ou eventos neste dia.</li>';
+        list.innerHTML = '<li class="muted">Sem feriados, eventos ou férias neste dia.</li>';
         return;
       }
 
@@ -850,6 +1023,7 @@
       var grid = document.getElementById('calendar-grid');
       var label = document.getElementById('month-label');
       label.textContent = MESES[state.month] + ' ' + state.year;
+      syncYearButtons();
 
       var first = new Date(state.year, state.month, 1);
       var startPad = first.getDay();
@@ -924,16 +1098,77 @@
       }
     }
 
-    var DIAS_SEMANA = [
-      'domingo', 'segunda-feira', 'terça-feira', 'quarta-feira',
-      'quinta-feira', 'sexta-feira', 'sábado'
-    ];
+    function renderFerias() {
+      var root = document.getElementById('ferias-list');
+      if (!root) return;
+      var pessoas = (state.ferias && state.ferias.pessoas) || [];
+      root.innerHTML = '';
+
+      if (!pessoas.length) {
+        root.innerHTML = '<div class="panel"><p class="muted">Nenhuma férias carregada.</p></div>';
+        return;
+      }
+
+      pessoas.forEach(function (p) {
+        var card = document.createElement('article');
+        card.className = 'ferias-card';
+
+        var head =
+          '<div class="ferias-card-head">' +
+          '<h3>' + escapeHtml(p.nome) + '</h3>' +
+          '<span class="ferias-mat">Matrícula ' + escapeHtml(p.matricula) + '</span>' +
+          '</div>';
+
+        var body = '';
+        (p.periodos || []).forEach(function (per) {
+          body +=
+            '<div class="periodo-block">' +
+            '<div class="periodo-meta">' +
+            '<span class="status-pill ' + statusClass(per.status) + '">' +
+            escapeHtml(per.status || '—') +
+            '</span>' +
+            '<span>Saldo: <strong>' + escapeHtml(per.saldo || '—') + '</strong></span>' +
+            '<span>Aquisitivo: ' +
+            formatBr(per.aquisitivoInicio) +
+            ' – ' +
+            formatBr(per.aquisitivoFim) +
+            '</span>' +
+            '<span>Limite saída: ' + formatBr(per.limiteSaida) + '</span>' +
+            '</div>';
+
+          body +=
+            '<table class="prog-table"><thead><tr>' +
+            '<th>Programação</th><th>Início</th><th>Término</th><th>Dias</th><th>Status</th>' +
+            '</tr></thead><tbody>';
+
+          (per.programacoes || []).forEach(function (prog) {
+            body +=
+              '<tr>' +
+              '<td>' + escapeHtml(prog.ordem || '—') + '</td>' +
+              '<td>' + formatBr(prog.inicio) + '</td>' +
+              '<td>' + formatBr(prog.termino) + '</td>' +
+              '<td>' + escapeHtml(String(prog.dias != null ? prog.dias : '—')) + '</td>' +
+              '<td><span class="status-pill ' +
+              statusClass(prog.statusProgramacao) +
+              '">' +
+              escapeHtml(prog.statusProgramacao || '—') +
+              '</span></td>' +
+              '</tr>';
+          });
+
+          body += '</tbody></table></div>';
+        });
+
+        card.innerHTML = head + body;
+        root.appendChild(card);
+      });
+    }
 
     function setGreetingDate() {
       var el = document.getElementById('greeting-date');
       if (!el) return;
       var now = new Date();
-      var label =
+      el.textContent =
         DIAS_SEMANA[now.getDay()] +
         ', ' +
         now.getDate() +
@@ -941,7 +1176,6 @@
         MESES[now.getMonth()] +
         ' de ' +
         now.getFullYear();
-      el.textContent = label;
     }
 
     function bindNav() {
@@ -968,26 +1202,71 @@
         }
         renderCalendar();
       });
+
+      document.querySelectorAll('.year-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          state.year = Number(btn.getAttribute('data-year'));
+          renderCalendar();
+        });
+      });
     }
 
-    function boot(seed) {
-      state.seed = seed || { feriados: [], eventos: [] };
+    function boot(seed, ferias) {
+      state.seed = seed || { feriados: [], eventos: [], ausencias: [] };
+      if (!state.seed.ausencias && ferias && ferias.ausencias) {
+        state.seed.ausencias = ferias.ausencias;
+      }
+      state.ferias = ferias || { pessoas: [], ausencias: state.seed.ausencias || [] };
       setGreetingDate();
       bindNav();
+      renderFerias();
       setView('calendario');
       renderCalendar();
     }
 
-    // Apps Script: busca seed no servidor. Fallback local se abrir HTML fora do GAS.
+    function bootFromFallback() {
+      var fb = window.__GESTOR360_FALLBACK_SEED__ || {};
+      boot(
+        {
+          anos: fb.anos || [2026, 2027],
+          feriados: fb.feriados || [],
+          eventos: fb.eventos || [],
+          ausencias: fb.ausencias || []
+        },
+        fb.ferias || { pessoas: fb.pessoas || [], ausencias: fb.ausencias || [] }
+      );
+    }
+
     if (typeof google !== 'undefined' && google.script && google.script.run) {
+      var calSeed = null;
+      var feriasSeed = null;
+      var pending = 2;
+
+      function maybeBoot() {
+        pending -= 1;
+        if (pending === 0) boot(calSeed, feriasSeed);
+      }
+
       google.script.run
-        .withSuccessHandler(boot)
-        .withFailureHandler(function () {
-          boot(window.__GESTOR360_FALLBACK_SEED__ || null);
+        .withSuccessHandler(function (data) {
+          calSeed = data;
+          maybeBoot();
         })
+        .withFailureHandler(bootFromFallback)
         .getCalendarioSeed();
+
+      google.script.run
+        .withSuccessHandler(function (data) {
+          feriasSeed = data;
+          maybeBoot();
+        })
+        .withFailureHandler(function () {
+          feriasSeed = { pessoas: [], ausencias: [] };
+          maybeBoot();
+        })
+        .getFerias();
     } else {
-      boot(window.__GESTOR360_FALLBACK_SEED__ || null);
+      bootFromFallback();
     }
   })();
 </script>
