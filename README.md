@@ -8,7 +8,7 @@ Stack: **HTML + JavaScript em Google Apps Script**, sem banco. Dados em **Google
 
 - Scaffold Apps Script (`Code.gs`, `SeedData.gs`, `Index.html`, `Stylesheet.html`, `JavaScript.html`, `appsscript.json`)
 - Shell com 5 visões: Férias · Calendário · Iniciativas · Pedidos de ajuda · Cultura Time
-- Cultura Time: DoR, DoD e Tenets do [Guia de trabalho](https://docs.google.com/document/d/1JKUz1m-qacMtSHQU3r0u_RAapaB0r1BhHG-9uij_f8Y/edit)
+- Cultura Time: DoR, DoD e Tenets do [Guia de trabalho](https://docs.google.com/document/d/1JKUz1m-qacMtSHQU3r0u_RAapaB0r1BhHG-9uij_f8Y/edit) + subpágina de pesquisa de clima (TeamCulture, semana 1/nov)
 - **Férias**: status/saldos/programações da planilha `data/ferias-subordinados.xlsx` (também no calendário)
 - Calendário 2026 + **2027** (feriados GB 2026 + nacionais 2027 + férias do time + eventos nov/2026)
 - Planilha modelo documentada em `planilha-modelo/`

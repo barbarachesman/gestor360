@@ -164,11 +164,27 @@
             <span class="badge">Cultura</span>
             <h2>Cultura Time</h2>
             <p id="cultura-header-copy">
-              DoR, DoD e Tenets do Guia de trabalho — Interfaces Conversacionais.
+              DoR, DoD, Tenets e pesquisa de clima do time.
             </p>
           </header>
-          <p id="cultura-aviso" class="cultura-aviso" hidden></p>
-          <div id="cultura-grid" class="doc-grid" role="list"></div>
+          <div class="ini-layout">
+            <aside class="ini-submenu panel" aria-label="Submenu de cultura">
+              <h3>Cultura</h3>
+              <button type="button" class="ini-sub-btn is-active" data-cultura="guia">
+                Guia · DoR / DoD / Tenets
+              </button>
+              <button type="button" class="ini-sub-btn" data-cultura="clima">
+                Pesquisa de clima
+              </button>
+            </aside>
+            <div class="ini-main">
+              <div id="cultura-guia">
+                <p id="cultura-aviso" class="cultura-aviso" hidden></p>
+                <div id="cultura-grid" class="doc-grid" role="list"></div>
+              </div>
+              <article id="cultura-clima" class="cultura-clima panel" hidden></article>
+            </div>
+          </div>
         </section>
       </main>
 

@@ -1,6 +1,7 @@
 /**
- * Cultura Time — DoR, DoD e Tenets (Guia de trabalho Interfaces Conversacionais).
- * Fonte: https://docs.google.com/document/d/1JKUz1m-qacMtSHQU3r0u_RAapaB0r1BhHG-9uij_f8Y/edit
+ * Cultura Time — DoR, DoD, Tenets e pesquisa de clima (TeamCulture).
+ * Fonte guia: https://docs.google.com/document/d/1JKUz1m-qacMtSHQU3r0u_RAapaB0r1BhHG-9uij_f8Y/edit
+ * Fonte clima: data/clima-teamculture-semana-1-novembro.pdf
  */
 function getCulturaPayload() {
   return {
@@ -86,6 +87,170 @@ function getCulturaPayload() {
         }
       ]
     }
-  ]
+  ],
+  "clima": {
+    "id": "semana-1-novembro-2026",
+    "titulo": "Pesquisa de clima — semana 1 novembro",
+    "plataforma": "TeamCulture",
+    "urlPlataforma": "https://beta.teamculture.com.br/engagement/climate",
+    "arquivoFonte": "data/clima-teamculture-semana-1-novembro.pdf",
+    "grupo": "Ger Engenharia - Experiências",
+    "grupoId": "90024338",
+    "atualizadoEm": "2026-11-05",
+    "periodoNotas": "últimos 90 dias",
+    "variacaoJanela": "12 meses",
+    "resumo": {
+      "mediaEngajamento": 7.59,
+      "escala": "Muito bom",
+      "variacao360d": -1.43,
+      "rank": "Bronze",
+      "melhorQueEmpresasPct": 24.36,
+      "participacaoPct": 75,
+      "participacaoVariacaoPct": -5,
+      "opinionesRespondidasPct": 95.46,
+      "opinionesVariacaoPct": -1.49,
+      "comparativos": {
+        "grupo": 7.8,
+        "grupoBoticario": 8.86,
+        "benchmarkTeamCulture": 8.53
+      }
+    },
+    "pilares": [
+      {
+        "nome": "Relacionamento com a equipe",
+        "nota": 8.96,
+        "variacao": -0.62
+      },
+      {
+        "nome": "Vestir a camisa",
+        "nota": 8.25,
+        "variacao": -1.08
+      },
+      {
+        "nome": "Crescimento pessoal",
+        "nota": 7.82,
+        "variacao": -1.56
+      },
+      {
+        "nome": "Liderança",
+        "nota": 7.8,
+        "variacao": -0.91
+      },
+      {
+        "nome": "Cultura de Inovação",
+        "nota": 7.69,
+        "variacao": -1.57
+      },
+      {
+        "nome": "Feedback",
+        "nota": 7.68,
+        "variacao": -1.22
+      },
+      {
+        "nome": "Satisfação",
+        "nota": 7.53,
+        "variacao": -1.66
+      },
+      {
+        "nome": "Alinhamento",
+        "nota": 7.28,
+        "variacao": -1.96
+      },
+      {
+        "nome": "Diversidade",
+        "nota": 7.08,
+        "variacao": -2.36
+      },
+      {
+        "nome": "Felicidade",
+        "nota": 7.06,
+        "variacao": -2.27
+      },
+      {
+        "nome": "Reconhecimento",
+        "nota": 6.93,
+        "variacao": -0.39
+      },
+      {
+        "nome": "Bem-estar",
+        "nota": 6.6,
+        "variacao": -2.61
+      }
+    ],
+    "atencao": "Nenhum pilar em estado de atenção no momento.",
+    "enps": {
+      "score": 50,
+      "variacao": -46,
+      "rank": "Bronze",
+      "melhorQueEmpresasPct": 32.94,
+      "promotoresPct": 75,
+      "promotoresVariacaoPct": -20.8,
+      "passivosPct": 0,
+      "passivosVariacaoPct": -4.2,
+      "detratoresPct": 25,
+      "detratoresVariacaoPct": 25,
+      "opiniones": [
+        "Não me sinto seguro mais aqui",
+        "O cuidado com as pessoas, os benefícios pensando no bem estar, preocupação com nossa evolução profissional. A atenção dada ao funcionário é diferente das outras empresas.",
+        "Recomendo o GB como um ótimo lugar para trabalhar principalmente pela cultura que estimula a colaboração, pela autonomia que temos para propor soluções e pela oportunidade de atuar em projetos inovadores e desafiadores. O time é um dos grandes diferenciais. Ao mesmo tempo, o último ciclo de gente e os desligamentos em massa trouxeram incerteza e exigiram muito da liderança — reforçando a importância de transparência, previsibilidade e tempo de adaptação."
+      ]
+    },
+    "lnps": {
+      "score": 0,
+      "variacao": -96,
+      "rank": "Bronze",
+      "melhorQueEmpresasPct": 11.64,
+      "promotoresPct": 33.3,
+      "promotoresVariacaoPct": -62.9,
+      "passivosPct": 33.3,
+      "passivosVariacaoPct": 29.5,
+      "detratoresPct": 33.3,
+      "detratoresVariacaoPct": 33.3,
+      "opiniones": [
+        "Minha percepção é que ela pratica uma escuta ativa. Isso torna o ambiente mais acolhedor e agradável.",
+        "Defender mais o time, priorizar melhor as demandas",
+        "Tive muita sorte em ter ótimas lideranças diretas aqui no GB. A última foi a Babi Chesman — inteligente, dedicada, disponível e humana.",
+        "Os dois líderes (TM e TL) são inteligentes, objetivos, humanos e participativos. Isso nos confere tranquilidade e autonomia no trabalho."
+      ]
+    },
+    "recomendacoes": [
+      {
+        "acao": "Atividades para integração do time",
+        "pilar": "Felicidade"
+      },
+      {
+        "acao": "Cinco palavras ou menos",
+        "pilar": "Vestir a camisa"
+      },
+      {
+        "acao": "Reunião Mensal de Time",
+        "pilar": "Satisfação"
+      },
+      {
+        "acao": "Reuniões em movimento",
+        "pilar": "Liderança"
+      },
+      {
+        "acao": "Aprendizagem entre pares",
+        "pilar": "Relacionamento com a equipe"
+      },
+      {
+        "acao": "Reconhecimento a partir de valores",
+        "pilar": "Reconhecimento"
+      },
+      {
+        "acao": "Reuniões 1-a-1",
+        "pilar": "Feedback"
+      },
+      {
+        "acao": "Planos de carreira",
+        "pilar": "Crescimento pessoal"
+      },
+      {
+        "acao": "Dia silencioso",
+        "pilar": "Bem-estar"
+      }
+    ]
+  }
 };
 }

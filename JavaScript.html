@@ -18,6 +18,7 @@
       ferias: null,
       iniciativas: null,
       cultura: null,
+      culturaPage: 'guia',
       iniSlug: null
     };
 
@@ -571,27 +572,35 @@
       renderIniDetail(ini);
     }
 
-    function renderCultura() {
+    function formatSigned(n, digits) {
+      if (n === null || n === undefined || n === '') return '—';
+      var num = Number(n);
+      if (isNaN(num)) return escapeHtml(String(n));
+      var fixed = num.toFixed(digits === undefined ? 2 : digits);
+      return (num > 0 ? '+' : '') + fixed;
+    }
+
+    function formatPct(n, digits) {
+      if (n === null || n === undefined || n === '') return '—';
+      var num = Number(n);
+      if (isNaN(num)) return escapeHtml(String(n));
+      var d = digits === undefined ? 0 : digits;
+      var fixed = Number.isInteger(num) && d === 0 ? String(num) : num.toFixed(d);
+      return fixed + '%';
+    }
+
+    function deltaClass(n) {
+      var num = Number(n);
+      if (isNaN(num) || num === 0) return 'clima-delta-flat';
+      return num > 0 ? 'clima-delta-up' : 'clima-delta-down';
+    }
+
+    function renderCulturaGuia() {
       var grid = document.getElementById('cultura-grid');
       var aviso = document.getElementById('cultura-aviso');
-      var headerCopy = document.getElementById('cultura-header-copy');
       if (!grid) return;
       var data = state.cultura || {};
       var secoes = data.secoes || [];
-
-      if (headerCopy) {
-        if (data.fonte && data.nomeDocumento) {
-          headerCopy.innerHTML =
-            'Fonte: <a href="' +
-            escapeHtml(data.fonte) +
-            '" target="_blank" rel="noopener noreferrer">' +
-            escapeHtml(data.nomeDocumento) +
-            '</a>';
-        } else {
-          headerCopy.textContent =
-            'DoR, DoD e Tenets do Guia de trabalho — Interfaces Conversacionais.';
-        }
-      }
 
       if (aviso) {
         if (data.aviso) {
@@ -676,6 +685,237 @@
         .join('');
     }
 
+    function renderNpsBlock(title, nps) {
+      if (!nps) return '';
+      var opinions = (nps.opiniones || [])
+        .map(function (op) {
+          return '<blockquote class="clima-quote">' + escapeHtml(op) + '</blockquote>';
+        })
+        .join('');
+      return (
+        '<section class="clima-section">' +
+        '<h3>' +
+        escapeHtml(title) +
+        '</h3>' +
+        '<div class="clima-kpi-row">' +
+        '<div class="clima-kpi"><span class="clima-kpi-label">Score</span><strong>' +
+        escapeHtml(String(nps.score)) +
+        '</strong><span class="' +
+        deltaClass(nps.variacao) +
+        '">' +
+        formatSigned(nps.variacao, 0) +
+        '</span></div>' +
+        '<div class="clima-kpi"><span class="clima-kpi-label">Rank</span><strong>' +
+        escapeHtml(nps.rank || '—') +
+        '</strong><span class="muted">melhor que ' +
+        formatPct(nps.melhorQueEmpresasPct, 2) +
+        ' das empresas</span></div>' +
+        '<div class="clima-kpi"><span class="clima-kpi-label">Promotores</span><strong>' +
+        formatPct(nps.promotoresPct, 1) +
+        '</strong><span class="' +
+        deltaClass(nps.promotoresVariacaoPct) +
+        '">' +
+        formatSigned(nps.promotoresVariacaoPct, 1) +
+        ' pp</span></div>' +
+        '<div class="clima-kpi"><span class="clima-kpi-label">Passivos</span><strong>' +
+        formatPct(nps.passivosPct, 1) +
+        '</strong><span class="' +
+        deltaClass(nps.passivosVariacaoPct) +
+        '">' +
+        formatSigned(nps.passivosVariacaoPct, 1) +
+        ' pp</span></div>' +
+        '<div class="clima-kpi"><span class="clima-kpi-label">Detratores</span><strong>' +
+        formatPct(nps.detratoresPct, 1) +
+        '</strong><span class="' +
+        deltaClass(nps.detratoresVariacaoPct) +
+        '">' +
+        formatSigned(nps.detratoresVariacaoPct, 1) +
+        ' pp</span></div>' +
+        '</div>' +
+        (opinions ? '<h4>Últimas opiniões</h4>' + opinions : '') +
+        '</section>'
+      );
+    }
+
+    function renderCulturaClima() {
+      var root = document.getElementById('cultura-clima');
+      if (!root) return;
+      var clima = (state.cultura && state.cultura.clima) || null;
+      if (!clima) {
+        root.innerHTML =
+          '<p class="muted">Pesquisa de clima ainda não carregada.</p>';
+        return;
+      }
+      var r = clima.resumo || {};
+      var comps = r.comparativos || {};
+      var pilares = (clima.pilares || [])
+        .slice()
+        .sort(function (a, b) {
+          return Number(b.nota) - Number(a.nota);
+        })
+        .map(function (p) {
+          return (
+            '<li class="clima-pilar">' +
+            '<div class="clima-pilar-top"><span>' +
+            escapeHtml(p.nome) +
+            '</span><strong>' +
+            Number(p.nota).toFixed(2) +
+            '</strong></div>' +
+            '<div class="clima-bar"><span style="width:' +
+            Math.max(0, Math.min(100, Number(p.nota) * 10)) +
+            '%"></span></div>' +
+            '<span class="' +
+            deltaClass(p.variacao) +
+            '">' +
+            formatSigned(p.variacao, 2) +
+            '</span></li>'
+          );
+        })
+        .join('');
+      var recs = (clima.recomendacoes || [])
+        .map(function (rec) {
+          return (
+            '<li><strong>' +
+            escapeHtml(rec.acao) +
+            '</strong><span class="muted"> · ' +
+            escapeHtml(rec.pilar) +
+            '</span></li>'
+          );
+        })
+        .join('');
+
+      root.innerHTML =
+        '<div class="clima-hero">' +
+        '<div class="ini-meta">' +
+        '<span class="status-pill">' +
+        escapeHtml(clima.plataforma || 'TeamCulture') +
+        '</span>' +
+        '<span>' +
+        escapeHtml(clima.grupo || '') +
+        '</span>' +
+        '<span>Atualizado ' +
+        escapeHtml(formatBr(clima.atualizadoEm)) +
+        '</span>' +
+        '</div>' +
+        '<h2>' +
+        escapeHtml(clima.titulo || 'Pesquisa de clima') +
+        '</h2>' +
+        '<p class="muted">Notas dos ' +
+        escapeHtml(clima.periodoNotas || 'últimos 90 dias') +
+        ' · variação em ' +
+        escapeHtml(clima.variacaoJanela || '12 meses') +
+        (clima.urlPlataforma
+          ? ' · <a href="' +
+            escapeHtml(clima.urlPlataforma) +
+            '" target="_blank" rel="noopener noreferrer">abrir TeamCulture</a>'
+          : '') +
+        '</p>' +
+        '</div>' +
+        '<div class="clima-kpi-row">' +
+        '<div class="clima-kpi clima-kpi-main"><span class="clima-kpi-label">Média de engajamento</span><strong>' +
+        Number(r.mediaEngajamento).toFixed(2) +
+        '</strong><span>' +
+        escapeHtml(r.escala || '') +
+        ' · <span class="' +
+        deltaClass(r.variacao360d) +
+        '">' +
+        formatSigned(r.variacao360d, 2) +
+        ' pts / 360d</span></span></div>' +
+        '<div class="clima-kpi"><span class="clima-kpi-label">Rank</span><strong>' +
+        escapeHtml(r.rank || '—') +
+        '</strong><span class="muted">melhor que ' +
+        formatPct(r.melhorQueEmpresasPct, 2) +
+        '</span></div>' +
+        '<div class="clima-kpi"><span class="clima-kpi-label">Participação</span><strong>' +
+        formatPct(r.participacaoPct) +
+        '</strong><span class="' +
+        deltaClass(r.participacaoVariacaoPct) +
+        '">' +
+        formatSigned(r.participacaoVariacaoPct, 0) +
+        ' pp</span></div>' +
+        '<div class="clima-kpi"><span class="clima-kpi-label">Opiniões respondidas</span><strong>' +
+        formatPct(r.opinionesRespondidasPct, 2) +
+        '</strong><span class="' +
+        deltaClass(r.opinionesVariacaoPct) +
+        '">' +
+        formatSigned(r.opinionesVariacaoPct, 2) +
+        ' pp</span></div>' +
+        '</div>' +
+        '<div class="clima-compare">' +
+        '<span>Grupo <strong>' +
+        Number(comps.grupo).toFixed(2) +
+        '</strong></span>' +
+        '<span>Grupo Boticário <strong>' +
+        Number(comps.grupoBoticario).toFixed(2) +
+        '</strong></span>' +
+        '<span>Benchmark TeamCulture <strong>' +
+        Number(comps.benchmarkTeamCulture).toFixed(2) +
+        '</strong></span>' +
+        '</div>' +
+        '<section class="clima-section">' +
+        '<h3>10 pilares de engajamento</h3>' +
+        (clima.atencao
+          ? '<p class="doc-note">' + escapeHtml(clima.atencao) + '</p>'
+          : '') +
+        '<ul class="clima-pilares">' +
+        pilares +
+        '</ul></section>' +
+        renderNpsBlock('eNPS (Employee Net Promoter Score)', clima.enps) +
+        renderNpsBlock('LNPS (Leadership Net Promoter Score)', clima.lnps) +
+        '<section class="clima-section">' +
+        '<h3>Recomendações de melhoria</h3>' +
+        '<ul class="clima-recs">' +
+        recs +
+        '</ul></section>';
+    }
+
+    function showCulturaPage(page) {
+      state.culturaPage = page || 'guia';
+      var guia = document.getElementById('cultura-guia');
+      var clima = document.getElementById('cultura-clima');
+      var headerCopy = document.getElementById('cultura-header-copy');
+      var data = state.cultura || {};
+
+      document.querySelectorAll('[data-cultura]').forEach(function (btn) {
+        btn.classList.toggle(
+          'is-active',
+          btn.getAttribute('data-cultura') === state.culturaPage
+        );
+      });
+
+      if (state.culturaPage === 'clima') {
+        if (guia) guia.hidden = true;
+        if (clima) clima.hidden = false;
+        if (headerCopy) {
+          headerCopy.textContent =
+            'Pesquisa de clima TeamCulture — semana 1 de novembro/2026.';
+        }
+        renderCulturaClima();
+        return;
+      }
+
+      if (guia) guia.hidden = false;
+      if (clima) clima.hidden = true;
+      if (headerCopy) {
+        if (data.fonte && data.nomeDocumento) {
+          headerCopy.innerHTML =
+            'Fonte: <a href="' +
+            escapeHtml(data.fonte) +
+            '" target="_blank" rel="noopener noreferrer">' +
+            escapeHtml(data.nomeDocumento) +
+            '</a>';
+        } else {
+          headerCopy.textContent =
+            'DoR, DoD e Tenets do Guia de trabalho — Interfaces Conversacionais.';
+        }
+      }
+      renderCulturaGuia();
+    }
+
+    function renderCultura() {
+      showCulturaPage(state.culturaPage || 'guia');
+    }
+
     function setGreetingDate() {
       var el = document.getElementById('greeting-date');
       if (!el) return;
@@ -700,6 +940,12 @@
       document.querySelectorAll('.ini-sub-btn[data-ini="lista"]').forEach(function (btn) {
         btn.addEventListener('click', function () {
           showIniciativa(null);
+        });
+      });
+
+      document.querySelectorAll('[data-cultura]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          showCulturaPage(btn.getAttribute('data-cultura'));
         });
       });
 
