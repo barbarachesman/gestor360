@@ -436,6 +436,47 @@
     color: var(--texto);
   }
 
+  .doc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+
+  .doc-card {
+    background: var(--branco);
+    border: 1px solid var(--borda);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    padding: 1.15rem 1.2rem 1.25rem;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+
+  .doc-card:hover {
+    border-color: rgba(43, 78, 232, 0.35);
+    transform: translateY(-1px);
+  }
+
+  .doc-card h3 {
+    margin: 0.55rem 0 0.35rem;
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--navy);
+  }
+
+  .doc-card p {
+    margin: 0;
+    color: var(--texto);
+    font-size: 0.95rem;
+  }
+
+  .doc-meta {
+    margin-top: 0.85rem !important;
+    font-size: 0.8rem !important;
+    font-weight: 600;
+    color: var(--azul) !important;
+  }
+
   code {
     font-size: 0.85em;
     background: var(--pill);
@@ -521,6 +562,9 @@
         </button>
         <button type="button" class="nav-btn" data-view="ajuda" aria-pressed="false">
           Pedidos de ajuda
+        </button>
+        <button type="button" class="nav-btn" data-view="cultura" aria-pressed="false">
+          Cultura Time
         </button>
       </nav>
 
@@ -608,6 +652,34 @@
           </header>
           <div class="panel">
             <p>Stub — filtro <code>precisaAjuda = true</code> na Fatia 3.</p>
+          </div>
+        </section>
+
+        <section id="view-cultura" class="view" hidden>
+          <header class="view-header">
+            <span class="badge">Cultura</span>
+            <h2>Cultura Time</h2>
+            <p>Documentos vivos dos times Interfaces Conversacionais e Experiências.</p>
+          </header>
+          <div class="doc-grid" role="list">
+            <article class="doc-card" role="listitem">
+              <span class="badge">DoD</span>
+              <h3>DoD Dor</h3>
+              <p>Definition of Done / critérios de dor e pronto do time.</p>
+              <p class="doc-meta">Link do Drive a configurar</p>
+            </article>
+            <article class="doc-card" role="listitem">
+              <span class="badge">Tenets</span>
+              <h3>Tenets</h3>
+              <p>Princípios e acordos de como o time trabalha junto.</p>
+              <p class="doc-meta">Link do Drive a configurar</p>
+            </article>
+            <article class="doc-card" role="listitem">
+              <span class="badge">Pulso</span>
+              <h3>Pesquisa de pulso / clima da semana</h3>
+              <p>Check-in semanal de clima e energia do time.</p>
+              <p class="doc-meta">Link do formulário / Drive a configurar</p>
+            </article>
           </div>
         </section>
       </main>
@@ -702,7 +774,7 @@
     }
 
     function setView(viewId) {
-      var views = ['ferias', 'calendario', 'iniciativas', 'ajuda'];
+      var views = ['ferias', 'calendario', 'iniciativas', 'ajuda', 'cultura'];
       views.forEach(function (id) {
         var el = document.getElementById('view-' + id);
         if (el) el.hidden = id !== viewId;

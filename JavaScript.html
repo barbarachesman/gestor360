@@ -82,7 +82,7 @@
     }
 
     function setView(viewId) {
-      var views = ['ferias', 'calendario', 'iniciativas', 'ajuda'];
+      var views = ['ferias', 'calendario', 'iniciativas', 'ajuda', 'cultura'];
       views.forEach(function (id) {
         var el = document.getElementById('view-' + id);
         if (el) el.hidden = id !== viewId;
