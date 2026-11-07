@@ -561,8 +561,9 @@
 
   .doc-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 1rem;
+    align-items: start;
   }
 
   .doc-card {
@@ -598,6 +599,66 @@
     font-size: 0.8rem !important;
     font-weight: 600;
     color: var(--azul) !important;
+  }
+
+  .doc-meta a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(43, 78, 232, 0.35);
+  }
+
+  .doc-meta a:hover {
+    border-bottom-color: var(--azul);
+  }
+
+  .cultura-aviso {
+    margin: 0 0 1rem;
+    padding: 0.75rem 0.95rem;
+    background: rgba(255, 186, 124, 0.22);
+    border: 1px solid rgba(196, 122, 44, 0.28);
+    border-radius: var(--radius);
+    color: var(--navy);
+    font-size: 0.9rem;
+  }
+
+  .doc-card.doc-card-rich {
+    padding-bottom: 1.35rem;
+  }
+
+  .doc-card h4 {
+    margin: 0.85rem 0 0.35rem;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--azul);
+  }
+
+  .doc-checklist,
+  .doc-apply,
+  .doc-tenets {
+    margin: 0;
+    padding-left: 1.1rem;
+    color: var(--texto);
+    font-size: 0.9rem;
+  }
+
+  .doc-checklist li,
+  .doc-apply li,
+  .doc-tenets li {
+    margin: 0.35rem 0;
+  }
+
+  .doc-tenets li strong {
+    display: block;
+    color: var(--navy);
+    font-weight: 600;
+    margin-bottom: 0.1rem;
+  }
+
+  .doc-note {
+    margin: 0.65rem 0 0;
+    color: var(--texto);
+    font-size: 0.86rem;
   }
 
   code {

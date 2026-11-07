@@ -17,6 +17,7 @@
       seed: null,
       ferias: null,
       iniciativas: null,
+      cultura: null,
       iniSlug: null
     };
 
@@ -570,6 +571,111 @@
       renderIniDetail(ini);
     }
 
+    function renderCultura() {
+      var grid = document.getElementById('cultura-grid');
+      var aviso = document.getElementById('cultura-aviso');
+      var headerCopy = document.getElementById('cultura-header-copy');
+      if (!grid) return;
+      var data = state.cultura || {};
+      var secoes = data.secoes || [];
+
+      if (headerCopy) {
+        if (data.fonte && data.nomeDocumento) {
+          headerCopy.innerHTML =
+            'Fonte: <a href="' +
+            escapeHtml(data.fonte) +
+            '" target="_blank" rel="noopener noreferrer">' +
+            escapeHtml(data.nomeDocumento) +
+            '</a>';
+        } else {
+          headerCopy.textContent =
+            'DoR, DoD e Tenets do Guia de trabalho — Interfaces Conversacionais.';
+        }
+      }
+
+      if (aviso) {
+        if (data.aviso) {
+          aviso.hidden = false;
+          aviso.textContent = data.aviso;
+        } else {
+          aviso.hidden = true;
+          aviso.textContent = '';
+        }
+      }
+
+      if (!secoes.length) {
+        grid.innerHTML =
+          '<div class="panel"><p class="muted">Conteúdo de cultura ainda não carregado.</p></div>';
+        return;
+      }
+
+      grid.innerHTML = secoes
+        .map(function (sec) {
+          var body = '';
+          if (sec.checklist && sec.checklist.length) {
+            body +=
+              '<h4>' +
+              escapeHtml(sec.checklistLabel || 'Checklist') +
+              '</h4><ul class="doc-checklist">' +
+              sec.checklist
+                .map(function (item) {
+                  return '<li>' + escapeHtml(item) + '</li>';
+                })
+                .join('') +
+              '</ul>';
+          }
+          if (sec.principios && sec.principios.length) {
+            body +=
+              '<h4>Princípios</h4><ul class="doc-tenets">' +
+              sec.principios
+                .map(function (p) {
+                  return (
+                    '<li><strong>' +
+                    escapeHtml(p.titulo) +
+                    '</strong>' +
+                    escapeHtml(p.texto || '') +
+                    '</li>'
+                  );
+                })
+                .join('') +
+              '</ul>';
+          }
+          if (sec.nota) {
+            body += '<p class="doc-note">' + escapeHtml(sec.nota) + '</p>';
+          }
+          if (sec.ondeAplicar && sec.ondeAplicar.length) {
+            body +=
+              '<h4>Onde aplicar</h4><ul class="doc-apply">' +
+              sec.ondeAplicar
+                .map(function (item) {
+                  return '<li>' + escapeHtml(item) + '</li>';
+                })
+                .join('') +
+              '</ul>';
+          }
+          return (
+            '<article class="doc-card doc-card-rich" role="listitem">' +
+            '<span class="badge">' +
+            escapeHtml(sec.badge || '') +
+            '</span>' +
+            '<h3>' +
+            escapeHtml(sec.titulo || '') +
+            '</h3>' +
+            '<p>' +
+            escapeHtml(sec.resumo || '') +
+            '</p>' +
+            body +
+            (sec.url
+              ? '<p class="doc-meta"><a href="' +
+                escapeHtml(sec.url) +
+                '" target="_blank" rel="noopener noreferrer">Abrir no Guia de trabalho</a></p>'
+              : '') +
+            '</article>'
+          );
+        })
+        .join('');
+    }
+
     function setGreetingDate() {
       var el = document.getElementById('greeting-date');
       if (!el) return;
@@ -623,17 +729,19 @@
       });
     }
 
-    function boot(seed, ferias, iniciativas) {
+    function boot(seed, ferias, iniciativas, cultura) {
       state.seed = seed || { feriados: [], eventos: [], ausencias: [] };
       if (!state.seed.ausencias && ferias && ferias.ausencias) {
         state.seed.ausencias = ferias.ausencias;
       }
       state.ferias = ferias || { pessoas: [], ausencias: state.seed.ausencias || [] };
       state.iniciativas = iniciativas || { iniciativas: [] };
+      state.cultura = cultura || { secoes: [] };
       setGreetingDate();
       bindNav();
       renderFerias();
       showIniciativa(null);
+      renderCultura();
       setView('calendario');
       renderCalendar();
     }
@@ -648,7 +756,8 @@
           ausencias: fb.ausencias || []
         },
         fb.ferias || { pessoas: fb.pessoas || [], ausencias: fb.ausencias || [] },
-        fb.iniciativasPayload || { iniciativas: fb.iniciativas || [] }
+        fb.iniciativasPayload || { iniciativas: fb.iniciativas || [] },
+        fb.culturaPayload || { secoes: fb.cultura || [] }
       );
     }
 
@@ -656,11 +765,12 @@
       var calSeed = null;
       var feriasSeed = null;
       var iniSeed = null;
-      var pending = 3;
+      var culturaSeed = null;
+      var pending = 4;
 
       function maybeBoot() {
         pending -= 1;
-        if (pending === 0) boot(calSeed, feriasSeed, iniSeed);
+        if (pending === 0) boot(calSeed, feriasSeed, iniSeed, culturaSeed);
       }
 
       google.script.run
@@ -692,6 +802,17 @@
           maybeBoot();
         })
         .getIniciativas();
+
+      google.script.run
+        .withSuccessHandler(function (data) {
+          culturaSeed = data;
+          maybeBoot();
+        })
+        .withFailureHandler(function () {
+          culturaSeed = { secoes: [] };
+          maybeBoot();
+        })
+        .getCultura();
     } else {
       bootFromFallback();
     }

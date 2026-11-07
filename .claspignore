@@ -7,5 +7,6 @@
 !JavaScript.html
 !FeriasData.gs
 !IniciativasData.gs
+!CulturaData.gs
 .git/**
 node_modules/**
