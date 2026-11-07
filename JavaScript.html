@@ -380,6 +380,39 @@
       return t.slice(0, maxLen - 1) + '…';
     }
 
+    function bmMeta(bm) {
+      if (!bm) return '';
+      var bits = [];
+      if (bm.coluna) bits.push(bm.coluna);
+      if (bm.secao) bits.push(bm.secao);
+      if (bm.lane) bits.push(bm.lane);
+      if (bm.owner) bits.push(bm.owner);
+      return bits.join(' · ');
+    }
+
+    function bmLinkHtml(bm, compact) {
+      if (!bm || !bm.url) return '';
+      var label = compact
+        ? 'Businessmap #' + (bm.cardId || '')
+        : 'Abrir no Businessmap';
+      var meta = bmMeta(bm);
+      return (
+        '<div class="ini-bm">' +
+        '<a class="ini-bm-link" href="' +
+        escapeHtml(bm.url) +
+        '" target="_blank" rel="noopener noreferrer">' +
+        escapeHtml(label) +
+        '</a>' +
+        (meta
+          ? '<span class="ini-bm-meta">' + escapeHtml(meta) + '</span>'
+          : '') +
+        (bm.matchTipo && bm.matchTipo.indexOf('aproximado') === 0
+          ? '<span class="ini-bm-approx">match aproximado</span>'
+          : '') +
+        '</div>'
+      );
+    }
+
     function renderIniList() {
       var root = document.getElementById('ini-list');
       var detail = document.getElementById('ini-detail');
@@ -411,6 +444,7 @@
           '" target="_blank" rel="noopener noreferrer">' +
           escapeHtml(ini.titulo) +
           '</a></h3>' +
+          bmLinkHtml(ini.businessmap, true) +
           '<div class="ini-block"><h4>Stakeholders</h4><p>' +
           escapeHtml(snippet(ini.stakeholders, 220)) +
           '</p></div>' +
@@ -437,6 +471,7 @@
       if (!root || !detail || !ini) return;
       root.hidden = true;
       detail.hidden = false;
+      var bm = ini.businessmap || null;
       var entregas = (ini.entregas || [])
         .map(function (e) {
           return '<li>' + escapeHtml(e) + '</li>';
@@ -448,6 +483,11 @@
         '<a class="year-btn" href="' +
         escapeHtml(ini.urlReferencia || '#') +
         '" target="_blank" rel="noopener noreferrer">Abrir planilha</a>' +
+        (bm && bm.url
+          ? '<a class="year-btn" href="' +
+            escapeHtml(bm.url) +
+            '" target="_blank" rel="noopener noreferrer">Abrir Businessmap</a>'
+          : '') +
         '</div>' +
         '<div class="ini-meta">' +
         '<span class="status-pill ' +
@@ -467,6 +507,14 @@
         '" target="_blank" rel="noopener noreferrer">' +
         escapeHtml(ini.titulo) +
         '</a></h2>' +
+        (bm
+          ? '<div class="ini-block"><h4>Businessmap</h4>' +
+            bmLinkHtml(bm, false) +
+            (bm.titulo
+              ? '<p class="ini-bm-title">' + escapeHtml(bm.titulo) + '</p>'
+              : '') +
+            '</div>'
+          : '') +
         '<div class="ini-block"><h4>Stakeholders</h4><p>' +
         escapeHtml(ini.stakeholders || '—') +
         '</p></div>' +
