@@ -23,7 +23,19 @@
       "ganhosCliente": "",
       "problemaOportunidade": "",
       "iniciativaDetalhadaCurto": "CURTO- Essencial (Quick Win):",
-      "fontePlanilha": "https://docs.google.com/spreadsheets/d/1Qc601hX2D6uNKvKVPkV4MjR_yWf_jNe5cTZDf_td33Y/edit"
+      "fontePlanilha": "https://docs.google.com/spreadsheets/d/1Qc601hX2D6uNKvKVPkV4MjR_yWf_jNe5cTZDf_td33Y/edit",
+      "businessmap": {
+        "cardId": 2838422,
+        "boardId": 2078,
+        "boardName": "Diretoria Tech Consumer - Portfólio de Iniciativas",
+        "titulo": "[Agente CVM] Migração para a Plataforma Unificada de Agentes",
+        "coluna": "Em Construção",
+        "secao": "In progress",
+        "lane": "Martech",
+        "owner": "mayara.marins",
+        "matchTipo": "titulo",
+        "url": "https://grupoboticario.kanbanize.com/ctrl_board/2078/cards/2838422/details/"
+      }
     },
     {
       "id": "INI-02",
@@ -46,7 +58,19 @@
       "ganhosCliente": "",
       "problemaOportunidade": "Problema de Negócio:\n\n\nProblema do Usuário\nOportunidade:",
       "iniciativaDetalhadaCurto": "CURTO- Essencial (Quick Win):",
-      "fontePlanilha": "https://docs.google.com/spreadsheets/d/1Qc601hX2D6uNKvKVPkV4MjR_yWf_jNe5cTZDf_td33Y/edit"
+      "fontePlanilha": "https://docs.google.com/spreadsheets/d/1Qc601hX2D6uNKvKVPkV4MjR_yWf_jNe5cTZDf_td33Y/edit",
+      "businessmap": {
+        "cardId": 2838423,
+        "boardId": 2078,
+        "boardName": "Diretoria Tech Consumer - Portfólio de Iniciativas",
+        "titulo": "[CTWA e CAPI] Otimização de tráfego, qualificação de leads e Mensuração de ROAS para Whatsap",
+        "coluna": "Mensuração de Resultados",
+        "secao": "Done",
+        "lane": "Martech",
+        "owner": "jose.graca",
+        "matchTipo": "titulo",
+        "url": "https://grupoboticario.kanbanize.com/ctrl_board/2078/cards/2838423/details/"
+      }
     },
     {
       "id": "C18IN779",
@@ -70,7 +94,19 @@
       "ganhosCliente": "Para o Cliente Final: Respostas em tempo real (tempo de resposta menor que 5 segundos), navegação sem travamentos ou erros de servidor e captura simplificada de cadastro com 1 clique (botão nativo de compartilhamento de telefone).\n\nPara a Consultora de Loja: Recebimento fluido e ordenado das solicitações de transbordo. A estabilidade do canal elimina filas travadas no tablet/celular da loja, permitindo que a consultora atenda leads já qualificados e com contexto preservado.",
       "problemaOportunidade": "Problema de Negócio:\nDurante picos sazonais críticos de alta demanda (como Beauty Week, Dia das Mães e Natal), o volume de mensagens no WhatsApp cresce exponencialmente. A falta de uma infraestrutura com elasticidade e governança de custos causa gargalos de latência, estouro imprevisível do orçamento de mensagens e tokens (Cloud/LLM), e potenciais quedas do canal. Uma indisponibilidade em datas sazonais significa perda direta de GMV e sobrecarga desordenada das consultoras em loja física.\n\nProblema do Usuário:\nEm momentos de grandes campanhas, o cliente sofre com alta latência nas respostas da IA (respostas demorando mais de 10 segundos), falhas no transbordo e travamentos nas jornadas de autosserviço. Para a consultora, o pico de acessos instáveis gera duplicação de chamados, perda do contexto da conversa e impossibilidade de responder ao cliente em tempo hábil.\n\nOportunidade:\nCriar uma base arquitetural resiliente baseada no conceito Secure & Scale by Design. Garantir alta disponibilidade operacional, previsibilidade orçamentária via FinOps, e implementar pontos de atrito zero, garantindo que a jornada de autosserviço resolva o Nível 1 antes de demandar o tempo valioso da consultora.",
       "iniciativaDetalhadaCurto": "CURTO- Essencial (Quick Win):  \n\n\nCriação do dashboard de saúde operacional (MTTR, RCA, Custos Meta SERVICE/Cloud).\n\nRevisar custos com IA (analisar possibilidade de usar mais fluxos determinísticos e usar modelos mais baratos)\n\nRevisar logs para redução do custo com cloudwatch (o custo atual está em ~1k mês)\n\nRevisar custos com Backup (o custo atual está em ~1k mês)\n\nSeparar filas por tipo de evento vindo da Meta/IM - hoje o volume de eventos de status de mensagens (sent, delivered, read) é muito maior que de eventos de resposta e isso  pode impactar no tempo de processamento de respostas que devem ser prioridade.",
-      "fontePlanilha": "https://docs.google.com/spreadsheets/d/1Qc601hX2D6uNKvKVPkV4MjR_yWf_jNe5cTZDf_td33Y/edit"
+      "fontePlanilha": "https://docs.google.com/spreadsheets/d/1Qc601hX2D6uNKvKVPkV4MjR_yWf_jNe5cTZDf_td33Y/edit",
+      "businessmap": {
+        "cardId": 2838424,
+        "boardId": 2078,
+        "boardName": "Diretoria Tech Consumer - Portfólio de Iniciativas",
+        "titulo": "[Agente CVM] Garantir escalabilidade sazonal, saúde operacional no ecossistema GB e jornadas eficientes de autosserviço no Whatsapp",
+        "coluna": "Em Construção",
+        "secao": "In progress",
+        "lane": "Martech",
+        "owner": "mayara.marins",
+        "matchTipo": "titulo",
+        "url": "https://grupoboticario.kanbanize.com/ctrl_board/2078/cards/2838424/details/"
+      }
     },
     {
       "id": "C18IN782",
@@ -95,7 +131,19 @@
       "ganhosCliente": "Para o Cliente Final:\nExperiência fluida e ágil. Reconhecimento imediato pela marca, acesso simplificado ao saldo e resgate de vantagens do Programa de Fidelidade e ofertas personalizadas ao seu perfil de beleza sem preenchimento de formulários longos.\n\nPara a Consultora de Loja:\nRecebimento de leads pré-qualificados. Ao aceitar o transbordo no dispositivo da loja, a consultora tem acesso imediato ao nome, CPF, histórico de compras, benefícios do Programa de Fidelidade e CEP do cliente, permitindo uma abordagem altamente consultiva e direcionada para o fechamento.",
       "problemaOportunidade": "Problema de Negócio:\nGrande parte das conversas que chegam ao WhatsApp iniciam de forma anônima, vinculadas apenas ao número da linha do celular. Isso cria uma \"cegueira de dados\" no canal: impossibilita reconhecer o histórico do consumidor, impede a atribuição precisa de vendas na ponta (transbordo para consultoras de lojas) e inviabiliza a aplicação automatizada de benefícios do Programa de Fidelidade.\n\nProblema do Usuário:\nO cliente se depara com uma experiência fragmentada e burocrática. Ele precisa repetir dados cadastrais a cada nova interação, não consegue consultar seu saldo e vantagens do Programa de Fidelidade diretamente na conversa e, quando a IA transborda a conversa para a consultora em loja, precisa explicar novamente quem ele é e o que deseja.\n\nOportunidade:\nEstruturar um fluxo de identificação ágil por CPF/Telefone no WhatsApp, integrado em tempo real à Base Unida do Grupo Boticário (CDP). Com o cliente identificado, o Agente de IA ganha inteligência de contexto (sabe os produtos de beleza favoritos do cliente) e realiza um transbordo enriquecido para a consultora na loja, que recebe a ficha pronta do cliente para converter com alta eficiência.",
       "iniciativaDetalhadaCurto": "CURTO- Essencial (Quick Win):  \n\nFluxo conversacional simplificado para captura e validação de CPF.\n\nIntegração via API com a Base unica GB para validação cadastral e consulta ao Programa de Fidelidade.\n\nRepasse do perfil identificado do cliente no cartão de transbordo para a consultora.",
-      "fontePlanilha": "https://docs.google.com/spreadsheets/d/1Qc601hX2D6uNKvKVPkV4MjR_yWf_jNe5cTZDf_td33Y/edit"
+      "fontePlanilha": "https://docs.google.com/spreadsheets/d/1Qc601hX2D6uNKvKVPkV4MjR_yWf_jNe5cTZDf_td33Y/edit",
+      "businessmap": {
+        "cardId": 2838425,
+        "boardId": 2078,
+        "boardName": "Diretoria Tech Consumer - Portfólio de Iniciativas",
+        "titulo": "[Agente CVM] Garantir a identificação do consumidor no canal WhatsApp",
+        "coluna": "Em pesquisa e Validação",
+        "secao": "Requested",
+        "lane": "Martech",
+        "owner": "mayara.marins",
+        "matchTipo": "titulo",
+        "url": "https://grupoboticario.kanbanize.com/ctrl_board/2078/cards/2838425/details/"
+      }
     },
     {
       "id": "C18IN781",
@@ -119,7 +167,19 @@
       "ganhosCliente": "Cliente\nExperiência Visual e Fluida: Navegação rápida por vitrines interativas e atraentes.\n\nFlexibilidade na Interação: Liberdade para mandar mensagens de áudio ou fotos do produto desejado sem romper a jornada.\n\nAtendimento Sem Atritos: Validação de CEP e frete no momento adequado e tratamento ágil para resolver dúvidas de logística e pós-venda\n\nConsultora\n\nTransbordo Qualificado: O tempo da consultora é preservado para focar em relacionamento e fechamento. Quando o atendimento é transbordado, ela recebe o histórico com os produtos selecionados e preferências do cliente na vitrine.\n\nRedução do Tempo Médio de Atendimento (TMA): Eliminação do tempo gasto explicando catálogo ou respondendo status de entrega de pedidos anteriores",
       "problemaOportunidade": "Problema de Negócio:\nAnalisando os dados do funil conversacional, identificamos gargalos claros de abandono que penalizam a conversão e encarecem o custo de aquisição/atendimento:\n\nGargalo de Entrada e Promoções (~40% de Abandono Acumulado): A solicitação prematura e invasiva do CEP na entrada da conversa soma-se ao alto volume de dúvidas não resolvidas sobre Promoções e Ofertas (18.5% do abandono), resultando na perda de quase metade dos leads potenciais antes da apresentação da vitrine.\n\nPerda por Incompreensão e Mídias Não Suportadas (7.2%): Usuários que interagem via áudio ou figurinha (5.5%) ou enfrentam falhas de NLU (1.7%) caem em loops de erro genericos e abandonam a sessão.\n\nAtrito em Localização e Fidelidade: Dúvidas sobre Benefícios/Aniversário (3.3%) e ruídos no fluxo de busca por lojas físicas (3.1% e 0.2%) geram fricção desnecessária.\n\nRuptura de Estoque: A falta de recomendação automatizada de produtos substitutos quando o item desejado está esgotado causa perda direta de venda.\n\nProblema do Usuário:\nBarreira de Entrada: O cliente é forçado a fornecer dados de localização (CEP) antes de saber se a marca possui a oferta ou produto que ele deseja.\n\nComunicação Rígida: O cliente tenta interagir de forma natural no WhatsApp (áudios, figurinhas) e recebe respostas travadas. Além disso, não encontra clareza sobre suas vantagens de aniversário ou ofertas vigentes.\n\nFrustração por Ruptura: Quando o produto desejado (ex: um batom de Make B. ou uma fragrância de Lily) está sem estoque, a jornada é interrompida sem alternativas.\n\nOportunidade:\nDestravar até 40% de conversão retida flexibilizando a captura de CEP e empoderando o Agente IA com uma Base de Conhecimento (KB) precisa de ofertas. Ao integrar o bot ao ecossistema de recomendação (Moneymap), às APIs do Programa de Fidelidade e a algoritmos de substituição de estoque, transformamos o WhatsApp em um canal fluido que resolve dúvidas de pós-venda (alavancando a taxa positiva atual de 17.4%) e entrega à consultora de loja um lead altamente propenso a fechar a compra.",
       "iniciativaDetalhadaCurto": "CURTO- Essencial (Quick Win):  \n\nRedução de Atrito na Entrada: Alterar a coleta de CEP para ser opcional no primeiro momento ou postergada para a etapa de cotação de frete/checkout.\n\nGarantia de Clareza em Ofertas: Atualizar a Base de Conhecimento do agente para sanar proativamente dúvidas de Promoções/Ofertas (atacando o ofensor de 18.5%).\n\nFallback Humano e Educativo: Tratativa amigável para mídias não suportadas (áudio/figurinha - 5.5%) e falhas de NLU (1.7%), orientando o cliente a usar botões ou texto sem quebrar o fluxo.\n\nAjuste na Localização de Lojas: Simplificação no fluxo de busca de loja física para zerar os abandonos de 3.1% e 0.2%. (Discovery)",
-      "fontePlanilha": "https://docs.google.com/spreadsheets/d/1Qc601hX2D6uNKvKVPkV4MjR_yWf_jNe5cTZDf_td33Y/edit"
+      "fontePlanilha": "https://docs.google.com/spreadsheets/d/1Qc601hX2D6uNKvKVPkV4MjR_yWf_jNe5cTZDf_td33Y/edit",
+      "businessmap": {
+        "cardId": 2838426,
+        "boardId": 2078,
+        "boardName": "Diretoria Tech Consumer - Portfólio de Iniciativas",
+        "titulo": "[Agente CVM] Garantir a atratividade da jornada e implementar alavancas de venda",
+        "coluna": "Em Construção",
+        "secao": "In progress",
+        "lane": "Martech",
+        "owner": "mayara.marins",
+        "matchTipo": "titulo",
+        "url": "https://grupoboticario.kanbanize.com/ctrl_board/2078/cards/2838426/details/"
+      }
     },
     {
       "id": "C18IN783",
@@ -144,7 +204,19 @@
       "ganhosCliente": "Cliente:\nConveniência e Encantamento: Lembretes proativos e certeiros antes das datas importantes.\n\nInteração Natural (Multimodal): Liberdade para mandar um áudio (\"Preciso de um presente de até R$ 150 para minha mãe que ama florais\") ou uma foto de um produto/kit antigo, recebendo recomendações instantâneas.\n\nAutonomia de Gestão: Transparência para gerenciar seus lembretes e preferências diretamente no ecossistema GB.\n\nPara a Consultora de Loja:\nSuperpoder de Vendas (App Lojas / Consultora): Acesso ao histórico de lembretes do cliente diretamente no dispositivo de loja. Ao identificar o cliente via CPF no PDV, a consultora pode abordar: \"Vi que o aniversário da sua irmã é semana que vem, quer aproveitar e já levar o presente?\".\n\nQualificação no Transbordo: Recebimento do contexto exato da intenção de presente quando o cliente migra do WhatsApp para o atendimento humano.",
       "problemaOportunidade": "Problema de Negócio:\nCusto Elevado de Mensageria: Disparos de lembretes ativos categorizados como mensagens de Marketing (Marketing Templates) possuem tarifação significativamente superior e menor margem de retorno se o lead não converter imediatamente.\n\nDesperdício de Conversas Abertas: Inexistência de inteligência para consumir e exibir \"Lembretes de Presentear\" atrelados ao CPF do cliente em sessões orgânicas ativas, gerando custo duplicado de disparo desnecessário.\n\nDesconexão Omnicanal: A consultora na loja física não possui acesso às datas especiais e lembretes de presentes cadastrados pelo cliente no ambiente digital, perdendo a oportunidade de fechar a venda presencialmente durante a visita ao ponto de venda (PDV).\n\nAtrito na Jornada e Bugs: O fluxo orgânico de cadastro de lembretes apresenta gargalos e erros operacionais no cadastro, enquanto a limitação do canal textual tradicional gera atrito para o cliente descrever o perfil de quem deseja presentear.\n\nProblema do Usuário:\nEsquecimento de Datas Críticas: O cliente frequentemente esquece datas comemorativas de pessoas próximas (aniversários, bodas, datas especiais) e necessita de soluções rápidas e assertivas \"de última hora\".\n\nFricção na Busca pelo Presente Ideal: Escolher um presente de beleza (família olfativa, tom de maquiagem, kit de tratamento) sem ajuda é uma tarefa complexa. Ter que digitar longas descrições texto a texto no WhatsApp gera cansaço e abandono.\n\nFalta de Autonomia: Dificuldade em visualizar, editar ou excluir lembretes de forma simples no canal de sua preferência (WhatsApp).\n\nOportunidade:\nCapacitar a jornada de Presentear — uma das categorias de maior Ticket Médio (AOV) e margem do Boticário — através da inovação multimodal em parceria estratégica (Co-build Meta <> GB). Testar o agente nativo da Meta (com capacidade de interpretar áudios e imagens de presentes/inspirações) em benchmark comparativo contra o Agente GB, enquanto reduzimos drasticamente o OpEx do canal ao transicionar a régua de mensagens para Utility Templates e interceptar conversas orgânicas abertas.",
       "iniciativaDetalhadaCurto": "CURTO- Essencial (Quick Win):  \n\nOtimização de CRM: Migração dos disparos de lembretes para templates Utility e implementação da lógica de interceptação de lembretes em conversas orgânicas abertas (via CPF).\n\nLigar cadastro de lembrete na jornada do whatsappp\n\nSetup da POC Co-build Meta <> GB: Estruturação do teste A/B comparativo de performance entre o Agente GB e o Agente Nativo Meta (com suporte inicial a áudio e imagem).",
-      "fontePlanilha": "https://docs.google.com/spreadsheets/d/1Qc601hX2D6uNKvKVPkV4MjR_yWf_jNe5cTZDf_td33Y/edit"
+      "fontePlanilha": "https://docs.google.com/spreadsheets/d/1Qc601hX2D6uNKvKVPkV4MjR_yWf_jNe5cTZDf_td33Y/edit",
+      "businessmap": {
+        "cardId": 2838419,
+        "boardId": 2078,
+        "boardName": "Diretoria Tech Consumer - Portfólio de Iniciativas",
+        "titulo": "[Agente CVM] Evolução da Jornada de Presentear no Whatsapp",
+        "coluna": "Concluído",
+        "secao": "Done",
+        "lane": "Martech",
+        "owner": "mayara.marins",
+        "matchTipo": "titulo",
+        "url": "https://grupoboticario.kanbanize.com/ctrl_board/2078/cards/2838419/details/"
+      }
     },
     {
       "id": "INI-07",
@@ -168,7 +240,19 @@
       "ganhosCliente": "Para o Cliente Final:\nExperiência Fluida e sem Atrito: Avalia a interação em menos de 15 segundos sem sair da tela do WhatsApp.\n\nSensação de Escuta Ativa: Espaço intuitivo para deixar comentários abertos sobre o que gostou ou o que precisa melhorar na recomendação de produtos e no atendimento.\n\nPara a Consultora de Loja:\nAutomação Operacional: Eliminação total da necessidade de enviar links manuais. O disparo do Flow ocorre automaticamente assim que a consultora clica em \"Encerrar Atendimento\" no seu aplicativo de vendas/atendimento.\n\nRedução do TMA: Economia de tempo por atendimento, permitindo focar em conversão e relacionamento.",
       "problemaOportunidade": "Problema de Negócio:\n\nBaixa Taxa de Resposta e Fricção Brutal: O modelo atual relying em links externos enviados manualmente pela consultora sofre de altíssimo abandono (drop-off), pois exige que o cliente saia do WhatsApp e abra um navegador.\nInsuficiência de Dados Qualitativos: O componente simplista de \"joinha\" (thumbs up) da Meta é raso, não captura o motivo do descontentamento e gera uma \"zona cega\" para os times de CX, Produto e Engenharia.Inconsistência Operacional no Transbordo: Sem o disparo automatizado, a consultora frequentemente esquece ou evita enviar o link de avaliação ao final do atendimento humano no WhatsApp, enviesando os indicadores de satisfação da loja física/franquia.\n\nProblema do Usuário:\n\nQuebra de Jornada para o Cliente: Ter que navegar para fora do aplicativo e preencher formulários web extensos gera cansaço e frustração após uma interação que deveria ser simples.\nTarefa Braçal para a Consultora: A consultora de loja perde tempo precioso de vendas tendo que copiar, colar e lembrar de enviar mensagens manuais de avaliação ao final de cada atendimento.\n\nOportunidade:\nRevolucionar a escuta ativa da voz do cliente (Voice of Customer - VoC) através da tecnologia WhatsApp Flows. Ao criar uma interface nativa, fluida e transacional acionada no momento exato do encerramento da jornada (seja pós-autosserviço com o Agente de IA ou pós-atendimento com a consultora), aumentamos exponencialmente a taxa de resposta ($CSAT/NPS$) e enviamos feedbacks qualitativos em tempo real para o Medallia, viabilizando o tratamento automático de clientes detratores (Closed-Loop).",
       "iniciativaDetalhadaCurto": "CURTO- Essencial (Quick Win):  \nDesativação de Modelos Legados: Descontinuação oficial dos links externos das consultoras e da ferramenta de \"joinha\" do bot.\n\nConstrução do WhatsApp Flow Nativo: Interface nativa com escala numérica (NPS/CSAT) + caixa de texto aberta para comentários qualitativos.\n\nConfiguração de Gatilhos Automáticos: Regra de disparo transacional ativada imediatamente no fechamento do ticket pelo Agente IA ou pelo encerramento da conversa pela consultora.\n\nIntegração Back-end Medallia: Envio via API do payload das respostas mapeadas por ID da Conversa, CPF, ID da Consultora e Canal.",
-      "fontePlanilha": "https://docs.google.com/spreadsheets/d/1Qc601hX2D6uNKvKVPkV4MjR_yWf_jNe5cTZDf_td33Y/edit"
+      "fontePlanilha": "https://docs.google.com/spreadsheets/d/1Qc601hX2D6uNKvKVPkV4MjR_yWf_jNe5cTZDf_td33Y/edit",
+      "businessmap": {
+        "cardId": 2838436,
+        "boardId": 2078,
+        "boardName": "Diretoria Tech Consumer - Portfólio de Iniciativas",
+        "titulo": "[MARTECH] Testes da ferramenta de conversation Whatsapp para pesquisas de NPS dado o discovery da SMT",
+        "coluna": "Em pesquisa e Validação",
+        "secao": "Requested",
+        "lane": "Martech",
+        "owner": "Magno Lapenda",
+        "matchTipo": "aproximado-nps-flows",
+        "url": "https://grupoboticario.kanbanize.com/ctrl_board/2078/cards/2838436/details/"
+      }
     },
     {
       "id": "INI-08",
@@ -191,7 +275,19 @@
       "ganhosCliente": "Jornada Fluida e Segura: Finalização da compra em menos de 1 minuto, sem trocar de aplicativo, com inserção de dados em interface nativa e segura (PCI Compliant).\n\nResolução de Erros na Hora: Se houver recusa no cartão de crédito, o Flow permite a troca imediata da forma de pagamento (ex: alterar para Pix) sem perder o carrinho ou a conversa.\n\nPara a Consultora de Loja:\nFechamento de Venda no \"Calor do Momento\": Ao indicar produtos e montar a sacola para o cliente, a consultora dispara o Flow de Checkout na própria conversa. Ela acompanha a confirmação do pagamento em tempo real, eliminando o desgaste de \"cobrar o cliente\" pelo pagamento do link externo e garantindo o comissionamento da venda.",
       "problemaOportunidade": "Problema de Negócio:\nO atual modelo de finalização de compras no WhatsApp exige o envio de um link externo de pagamento (URL que redireciona para um navegador fora do aplicativo). No e-commerce conversacional, esse desvio de ambiente causa um drop-off crítico de 30% a 50% na etapa final do funil de vendas. Além disso, há um desafio logístico e financeiro na orquestração de pedidos: falta um roteamento dinâmico e inteligente para decidir se o pedido deve ser faturado pelo e-commerce central ou pela loja física mais próxima (Loja Digital/PDV) com entrega via motoboy (ship from store).\n\nProblema do Usuário:\nFricção e Desconfiança: Ter que sair da conversa do WhatsApp, esperar o navegador carregar uma página externa e digitar dados do cartão de crédito em um ambiente diferente gera insegurança e perda de contexto.\n\nPerda de Suporte no Momento Crítico: Caso o cartão seja recusado no link externo, a sessão de atendimento com o Agente de IA ou com a Consultora é quebrada, exigindo que o cliente recomece a conversa para solicitar um novo link ou tirar dúvidas.\n\nOportunidade:\nConstruir uma experiência de Checkout 100% Nativo (In-App) através da tecnologia WhatsApp Flows. O cliente revisa itens, escolhe modalidade de entrega, seleciona a forma de pagamento (Pix / Cartão) e conclui a transação sem sair do WhatsApp. Com o middleware de roteamento inteligente conectando a API da Loja Digital e a API do E-commerce, otimizamos o tempo de entrega e a margem logística do Boticário, maximizando a conversão final do canal",
       "iniciativaDetalhadaCurto": "CURTO- Essencial (Quick Win):",
-      "fontePlanilha": "https://docs.google.com/spreadsheets/d/1Qc601hX2D6uNKvKVPkV4MjR_yWf_jNe5cTZDf_td33Y/edit"
+      "fontePlanilha": "https://docs.google.com/spreadsheets/d/1Qc601hX2D6uNKvKVPkV4MjR_yWf_jNe5cTZDf_td33Y/edit",
+      "businessmap": {
+        "cardId": 2838427,
+        "boardId": 2078,
+        "boardName": "Diretoria Tech Consumer - Portfólio de Iniciativas",
+        "titulo": "[Agente CVM] Checkout omnicanal",
+        "coluna": "Cancelado",
+        "secao": "Done",
+        "lane": "Martech",
+        "owner": "mayara.marins",
+        "matchTipo": "titulo",
+        "url": "https://grupoboticario.kanbanize.com/ctrl_board/2078/cards/2838427/details/"
+      }
     },
     {
       "id": "INI-09",
@@ -216,7 +312,19 @@
       "ganhosCliente": "Para o Cliente Final:\nTransparência e Confiança: Visualização imediata do preço exato praticado em sua região com destaques de \"De / Por\".\n\nPrevisibilidade de Entrega: Certeza de que o produto recomendado pela IA está fisicamente disponível na loja ao seu lado.\n\nAcesso a Experiências Exclusivas: Descoberta e agendamento de serviços de beleza gratuitos ou promocionais na loja mais conveniente.\n\nPara a Consultora de Loja:\nRecebimento de Leads de Alta Intenção: O transbordo é realizado com o cliente já ciente do estoque da loja, do valor exato regionalizado e com interesse em serviços ou retirada presencial.\n\nFerramenta de Fechamento Presencial: Capacidade de usar os agendamentos de experiências de loja gerados pelo bot para realizar cross-sell humanizado no balcão da loja.",
       "problemaOportunidade": "Problema de Negócio:\nDivergência e Perda de Margem: A ausência de sincronização em tempo real entre o canal conversacional e as precificações regionalizadas das franquias/lojas gera fricção no checkout e insatisfação do consumidor por quebra de expectativa de preço.\n\nInvisibilidade do Estoque Local (PDV): Sem acesso ao estoque das lojas físicas mais próximas, o Agente de IA recomenda itens sem garantia de pronta entrega local, desperdiçando a malha logística de ship-from-store e pick-up in store (retirada em loja) do Grupo Boticário.\n\nSubaproveitamento dos Serviços de Loja: Lojas físicas que oferecem experiências de alto valor (como camarim de maquiagem Make B. e diagnóstico de pele Botik) não recebem tráfego qualificado vindo do WhatsApp por falta de mapeamento estruturado na Base de Conhecimento do bot.\n\nProblema do Usuário:\nFrustração por Preço Divergente: O cliente vê um valor no catálogo do WhatsApp e descobre um preço diferente ao tentar finalizar a compra ou ao ser direcionado para a loja da sua região.\n\nRuptura Pós-Escolha: O consumidor escolhe um item recomendado pela IA, mas descobre tarde demais que o produto não está disponível na loja da sua cidade para entrega rápida.\n\nDesconhecimento de Benefícios Presenciais: O cliente não sabe que a loja física Boticário mais próxima oferece serviços de experimentação e consultoria estética gratuita ou agendada.\n\nOportunidade:\nEstabelecer a fundação arquitetural omnicanal obrigatória no WhatsApp. Ao capturar a localização do cliente de forma fluida no início da jornada e conectar o Agente de IA às novas APIs de Preço Regionalizado e Estoque de PDV em tempo real, travamos a divergência de valores e ativamos alavancas de alta conversão — como gatilhos de escassez (\"Restam apenas 2 unidades na loja do Shopping X\") e direcionamento do cliente para experimentar serviços físicos em loja, pavimentando o caminho definitivo para o Checkout Nativo via Flows.",
       "iniciativaDetalhadaCurto": "CURTO- Essencial (Quick Win):  \n\nQuick-Wins de Precificação: Implementação de avisos informativos de precificação regional e exibição visual de ofertas \"De / Por\" nas jornadas vigentes..\n\nAdequação do Fluxo de Entrada: Modificação amigável na jornada para solicitar localização/CEP antes da exibição da vitrine de produtos.",
-      "fontePlanilha": "https://docs.google.com/spreadsheets/d/1Qc601hX2D6uNKvKVPkV4MjR_yWf_jNe5cTZDf_td33Y/edit"
+      "fontePlanilha": "https://docs.google.com/spreadsheets/d/1Qc601hX2D6uNKvKVPkV4MjR_yWf_jNe5cTZDf_td33Y/edit",
+      "businessmap": {
+        "cardId": 2838428,
+        "boardId": 2078,
+        "boardName": "Diretoria Tech Consumer - Portfólio de Iniciativas",
+        "titulo": "[Agente CVM] Habilitadores para jornadas omni: Preço regionalizado e estoque PDV",
+        "coluna": "Em pesquisa e Validação",
+        "secao": "Requested",
+        "lane": "Martech",
+        "owner": "mayara.marins",
+        "matchTipo": "titulo",
+        "url": "https://grupoboticario.kanbanize.com/ctrl_board/2078/cards/2838428/details/"
+      }
     },
     {
       "id": "INI-10",
@@ -240,7 +348,19 @@
       "ganhosCliente": "Para o Cliente Final: Experiência \"Wow\" em Beauty Tech. Atendimento instantâneo, fluido e sem atrito. Ele se sente reconhecido, pois a marca já sabe o que ele quer no momento em que ele responde ao WhatsApp.\n\nPara a Consultora: Empoderamento. Ela deixa de ser uma \"tiradora de dúvidas\" para ser uma consultora de beleza de alto valor. Quando o cliente chega nela via transbordo, o Agente de IA já passou o resumo (\"Cliente veio da campanha de Lily, já validou o tamanho e preço, e quer saber dicas de fixação com você\"). Isso reduz o TMA (Tempo Médio de Atendimento) e aumenta a conversão e o ticket médio da ponta.",
       "problemaOportunidade": "Problema de Negócio: Campanhas ativas (outbound) de CRM geram picos massivos de respostas no WhatsApp (inbound). Atualmente, a falta de um autosserviço inteligente e contextualizado causa duas dores crônicas: gargalo no atendimento, sobrecarregando as consultoras com dúvidas básicas (frete, estoque, como usar), e alta taxa de abandono do lead, resultando na perda da janela de maior intenção de compra.\n\nProblema do Usuário: O cliente recebe uma oferta por whatsapp (ex: promoção de Malbec), se interessa e responde. Porém, ele cai em um fluxo genérico ou em uma fila de espera da consultora, precisando repetir o contexto (\"vi a promoção do perfume e quero saber mais\"). Isso gera fricção, quebra de engajamento e frustração.\n\nOportunidade: Reter o usuário no exato momento de \"calor\" da oferta. Utilizar um Agente IA para recepcionar esse cliente com contexto (a IA sabe qual campanha ele clicou), resolver objeções rapidamente, recomendar produtos complementares (cross-sell) e fechar a venda de forma autônoma ou realizar um transbordo (handoff) cirúrgico para a consultora.\n\nSinergia com Grupo Boticário: Essa feature é vital para maximizar o ROAS (Return on Ad Spend) e o ROI do nosso time de CRM. Além disso, as interações do agente com o cliente nos permitirão capturar first-party data riquíssimos em tempo real (ex: por que o cliente não comprou a oferta?), retroalimentando os algoritmos de propensão de compra e personalização do ecossistema GB.",
       "iniciativaDetalhadaCurto": "CURTO- Essencial (Quick Win):",
-      "fontePlanilha": "https://docs.google.com/spreadsheets/d/1Qc601hX2D6uNKvKVPkV4MjR_yWf_jNe5cTZDf_td33Y/edit"
+      "fontePlanilha": "https://docs.google.com/spreadsheets/d/1Qc601hX2D6uNKvKVPkV4MjR_yWf_jNe5cTZDf_td33Y/edit",
+      "businessmap": {
+        "cardId": 2838429,
+        "boardId": 2078,
+        "boardName": "Diretoria Tech Consumer - Portfólio de Iniciativas",
+        "titulo": "[Agente CVM] Habilitar jornadas de autosserviço após disparos CRM",
+        "coluna": "Mensuração de Resultados",
+        "secao": "Done",
+        "lane": "Martech",
+        "owner": "mayara.marins",
+        "matchTipo": "titulo",
+        "url": "https://grupoboticario.kanbanize.com/ctrl_board/2078/cards/2838429/details/"
+      }
     },
     {
       "id": "INI-11",
@@ -258,7 +378,25 @@
       "ganhosCliente": "",
       "problemaOportunidade": "",
       "iniciativaDetalhadaCurto": "",
-      "fontePlanilha": "https://docs.google.com/spreadsheets/d/1Qc601hX2D6uNKvKVPkV4MjR_yWf_jNe5cTZDf_td33Y/edit"
+      "fontePlanilha": "https://docs.google.com/spreadsheets/d/1Qc601hX2D6uNKvKVPkV4MjR_yWf_jNe5cTZDf_td33Y/edit",
+      "businessmap": {
+        "cardId": 2838417,
+        "boardId": 2078,
+        "boardName": "Diretoria Tech Consumer - Portfólio de Iniciativas",
+        "titulo": "[Comunicação] Meta/BSUID - Nome de usuário WhatsApp",
+        "coluna": "Mensuração de Resultados",
+        "secao": "Done",
+        "lane": "Martech",
+        "owner": "mayara.marins",
+        "matchTipo": "titulo",
+        "url": "https://grupoboticario.kanbanize.com/ctrl_board/2078/cards/2838417/details/"
+      }
     }
-  ]
+  ],
+  "businessmap": {
+    "boardId": 2078,
+    "boardName": "Diretoria Tech Consumer - Portfólio de Iniciativas",
+    "host": "https://grupoboticario.kanbanize.com",
+    "nota": "Associações via MCP Businessmap por similaridade de título (nov/2026). Board 2078. INI-07 é match aproximado (NPS/Flows → card 2838436)."
+  }
 }
