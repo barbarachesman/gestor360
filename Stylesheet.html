@@ -427,6 +427,47 @@
     color: var(--texto);
   }
 
+  .doc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+
+  .doc-card {
+    background: var(--branco);
+    border: 1px solid var(--borda);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    padding: 1.15rem 1.2rem 1.25rem;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+
+  .doc-card:hover {
+    border-color: rgba(43, 78, 232, 0.35);
+    transform: translateY(-1px);
+  }
+
+  .doc-card h3 {
+    margin: 0.55rem 0 0.35rem;
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--navy);
+  }
+
+  .doc-card p {
+    margin: 0;
+    color: var(--texto);
+    font-size: 0.95rem;
+  }
+
+  .doc-meta {
+    margin-top: 0.85rem !important;
+    font-size: 0.8rem !important;
+    font-weight: 600;
+    color: var(--azul) !important;
+  }
+
   code {
     font-size: 0.85em;
     background: var(--pill);
