@@ -47,3 +47,10 @@ function getFerias() {
 function getIniciativas() {
   return getIniciativasPayload();
 }
+
+/**
+ * Cultura Time — DoR, DoD e Tenets (Guia de trabalho).
+ */
+function getCultura() {
+  return getCulturaPayload();
+}
